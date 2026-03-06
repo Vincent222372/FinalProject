@@ -20,5 +20,17 @@ namespace FinalProject.Data
         public DbSet<CartItems> tb_CartItems { get; set; }
         public DbSet<Order> tb_Order { get; set; }
         public DbSet<OrderDetails> tb_OrderDetails { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Roles>().HasData(
+                new Roles { RoleId = 1, RoleName = "Admin" },
+                new Roles { RoleId = 2, RoleName = "Customer" },
+                new Roles { RoleId = 3, RoleName = "Shop" }
+            );
+        }
     }
+
 }

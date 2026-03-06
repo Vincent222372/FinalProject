@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using FinalProject.Data;
 
 namespace FinalProject
 {
@@ -15,7 +16,7 @@ namespace FinalProject
             var connectionString = builder.Configuration.GetConnectionString("FinalProject") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             // Configure the DbContext with the connection string
-            builder.Services.AddDbContext<DbContext>(options =>
+            builder.Services.AddDbContext<WebDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
 
