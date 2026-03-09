@@ -1,0 +1,30 @@
+﻿<h2>Register</h2>
+
+<form method="post">
+
+    <input name="Username" placeholder="Username" />
+
+    <input name="Email" placeholder="Email" />
+
+    <input type="password" name="Password" placeholder="Password" />
+
+    <input type="password" name="ConfirmPassword" placeholder="Confirm Password" />
+
+    <button type="submit">Register</button>
+
+</form>
+
+<p style="color:red">@ViewBag.Error</p>
+
+<br>
+
+<a href="/Account/GoogleLogin" style="color:red;">
+    Register with Gmail
+</a>
+
+<br>
+<br>
+
+<a href="/Account/Login">
+    Already have account? Login
+</a>
