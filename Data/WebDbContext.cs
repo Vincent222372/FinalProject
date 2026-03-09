@@ -10,7 +10,7 @@ namespace FinalProject.Data
             : base(options)
         {
         }
-
+        public DbSet<User> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<User> tb_customers { get; set; }
         public DbSet<Shop> tb_Shop { get; set; }

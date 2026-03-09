@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject
 {
@@ -11,6 +13,18 @@ namespace FinalProject
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+.AddCookie()
+.AddGoogle(options =>
+{
+    options.ClientId = "391898321966-7es0tec74nvjfm60aoev79o780epfqev.apps.googleusercontent.com";
+    options.ClientSecret = "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";
+});
+
 
             // Get the connection string from appsettings.json
             var connectionString = builder.Configuration.GetConnectionString("FinalProject") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
