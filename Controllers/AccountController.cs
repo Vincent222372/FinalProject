@@ -28,7 +28,7 @@ namespace FinalProject.Controllers
         public IActionResult Login(string username, string password)
         {
             var user = _context.Users
-                .FirstOrDefault(u => u.Username == username && u.Password == password);
+                .FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
 
             if (user != null)
             {

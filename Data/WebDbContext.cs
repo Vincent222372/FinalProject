@@ -12,7 +12,6 @@ namespace FinalProject.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
-        public DbSet<User> tb_customers { get; set; }
         public DbSet<Shop> tb_Shop { get; set; }
         public DbSet<Product> tb_Product { get; set; }
         public DbSet<ProductCategory> tb_ProductCategory { get; set; }
