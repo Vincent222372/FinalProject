@@ -280,7 +280,112 @@ body {
 
 /* REGISTER */
 
-.register {
+.register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+/* CARD */
+
+.register-card {
+    width: 420px;
+    padding: 45px;
+    border-radius: 14px;
+    background: var(--card-color);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+}
+
+    .register-card h2 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 25px;
+    color: gray;
+}
+
+/* INPUT */
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--text-color);
+    }
+
+/* REGISTER BUTTON */
+
+.register-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+    .register-btn:hover {
+        opacity: 0.9;
+    }
+
+/* GOOGLE BUTTON */
+
+.google-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--card-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+    .google-btn img {
+        width: 18px;
+    }
+
+/* DIVIDER */
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+    .divider span {
+        margin: auto;
+        color: gray;
+    }
+
+/* LOGIN LINK */
+
+.login-link {
     text-align: center;
     margin-top: 15px;
+}
+
+.dark-mode .register-btn {
+    background: white;
+    color: black;
+}
+
+.register-btn:hover {
+    opacity: 0.9;
 }
