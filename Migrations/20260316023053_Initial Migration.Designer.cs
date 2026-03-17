@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-<<<<<<<< HEAD:Migrations/20260316015357_Initial Migration.Designer.cs
-    [Migration("20260316015357_Initial Migration")]
-========
-    [Migration("20260313131149_Initial Migration")]
->>>>>>>> b93f49896b22b4cb521b48f882b28289d313d383:Migrations/20260313131149_Initial Migration.Designer.cs
+    [Migration("20260316023053_Initial Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
