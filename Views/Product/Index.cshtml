@@ -1,12 +1,16 @@
-﻿@model List<FinalProject.Models.Product>
+﻿@model List<Product>
+@model List<FinalProject.Models.Product>
 @{
     string selectedCategoryId = Context.Request.Query["categoryId"];
 }
 
+<div class="shop-container">
 <h2>🛍 Product List</h2>
 
+    <h2>SHOP</h2>
 <p>Total: <b>@Model.Count</b> products</p>
 
+    <!-- SEARCH + FILTER -->
 <!-- SEARCH -->
 <form method="get" action="/Product/Search" style="margin-bottom:15px;">
     <input type="text" name="keyword" placeholder="Search product..."
@@ -14,17 +18,26 @@
     <button type="submit">Search</button>
 </form>
 
+    <form method="get" class="shop-filter">
 <hr />
 
+        <input type="text" name="search" placeholder="Search product...">
 <!-- CATEGORY -->
 <h3>📂 Category</h3>
 
+        <select name="category">
+            <option value="">All</option>
+            <option value="shirt">Shirt</option>
+            <option value="hoodie">Hoodie</option>
+            <option value="jacket">Jacket</option>
+        </select>
 <a href="/Product"
    style="margin-right:10px;
           @(string.IsNullOrEmpty(selectedCategoryId) ? "color:red;font-weight:bold" : "")">
     All
 </a>
 
+        <button type="submit">Search</button>
 @foreach (var c in ViewBag.Categories)
 {
     <a href="/Product?categoryId=@c.CategoryId"
@@ -34,18 +47,23 @@
     </a>
 }
 
+    </form>
 <hr />
 
+    <!-- PRODUCT GRID -->
 <!-- PRODUCT LIST -->
 <div style="display:flex;flex-wrap:wrap;">
 
+    <div class="product-grid">
     @if (Model.Count == 0)
     {
         <p>❌ No products found</p>
     }
 
+        @foreach (var p in Model)
     @foreach (var item in Model)
-    {
+        {
+            <a href="/Product/Detail/@p.ProductID" class="product-card">
         <div style="border:1px solid #ccc;
                         padding:10px;
                         margin:10px;
@@ -66,11 +84,14 @@
                 @item.Price VNĐ
             </p>
 
+                <img src="@p.Image" />
             <!-- CATEGORY -->
             <p style="font-size:13px;color:gray;">
                 @item.Category?.CateName
             </p>
 
+                <h3>@p.ProductName</h3>
+                <p>@p.Price.000đ</p>
             <!-- ACTION -->
             <a href="/Product/Details/@item.ProductID">👁 View</a>
             <br /><br />
@@ -83,8 +104,9 @@
                           text-decoration:none;">
                 🛒 Add to Cart
             </a>
+        }
 
-        </div>
+    </div>
     }
 
 </div>

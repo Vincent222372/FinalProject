@@ -1,4 +1,6 @@
 using FinalProject.Data;
+using FinalProject.Models.Momo;
+using FinalProject.Services.Momo;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +40,11 @@ namespace FinalProject
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
 
+            builder.Services.AddHttpClient();
+
+            //Connect MomoAPI
+            builder.Services.Configure<MomoOptionModel> (builder.Configuration.GetSection("MomoAPI"));
+            builder.Services.AddScoped<IMomoService, MomoService>();
 
             var app = builder.Build();
 
