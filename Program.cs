@@ -35,6 +35,9 @@ namespace FinalProject
                     return Task.CompletedTask;
                 };
             });
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
+
 
             var app = builder.Build();
 
@@ -43,11 +46,15 @@ namespace FinalProject
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+           
+
+          
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthentication();
 
