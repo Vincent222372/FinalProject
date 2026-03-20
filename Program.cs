@@ -17,7 +17,7 @@ namespace FinalProject
 
             // DbContext
             builder.Services.AddDbContext<WebDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("FinalProject")));
 
             // Authentication
             builder.Services.AddAuthentication(options =>
