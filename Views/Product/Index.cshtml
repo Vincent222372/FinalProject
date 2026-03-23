@@ -1,4 +1,17 @@
-﻿@model List<FinalProject.Models.Product>
+﻿<style>
+    h2, h3, h4, p, b, span, label {
+        color: white !important;
+    }
+
+    a {
+        color: white !important;
+    }
+
+    select, input {
+        color: black;
+    }
+</style> 
+@model List<FinalProject.Models.Product>
 
 @{
     var selectedCategory = ViewBag.SelectedCategory as int?;
@@ -6,6 +19,18 @@
 }
 
 <h2>🛍 Product List</h2>
+<a asp-action="Create"
+   style="background:#007bff;
+          color:white;
+          padding:8px 15px;
+          border-radius:5px;
+          text-decoration:none;
+          display:inline-block;
+          margin-bottom:10px;">
+    ➕ Add Product
+</a>
+
+
 <p>Total: <b>@Model.Count</b> products</p>
 
 <!-- SEARCH (CÓ DROPDOWN) -->
@@ -87,8 +112,10 @@
                 <a href="/Product/Details/@item.ProductID"
                    style="text-decoration:none;color:black;">
 
-                    <img src="@(item.Image ?? "/assets/product-1.jpg")"
-                         style="width:100%;height:150px;object-fit:cover;" />
+                    <img src="@(string.IsNullOrEmpty(item.Image)
+                                     ? Url.Content("~/assets/product-1.jpg")
+                                     : Url.Content("~/assets/" + item.Image))"
+                 style="width:100%;height:150px;object-fit:cover;" />
 
                     <h4>@item.ProductName</h4>
 
@@ -112,7 +139,7 @@
                           text-decoration:none;">
                     🛒 Add to Cart
                 </a>
-
+             
             </div>
         }
     }

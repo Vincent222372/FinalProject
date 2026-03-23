@@ -85,4 +85,78 @@ public class ProductController : Controller
 
         return View(product);
     }
+    // ===== CREATE =====
+    public IActionResult Create()
+    {
+        ViewBag.Categories = _context.tb_ProductCategory.ToList();
+        ViewBag.Brands = _context.tb_Brand.ToList();
+        ViewBag.Shops = _context.tb_Shop.ToList();
+
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Product model)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.tb_Product.Add(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        ViewBag.Categories = _context.tb_ProductCategory.ToList();
+        ViewBag.Brands = _context.tb_Brand.ToList();
+        ViewBag.Shops = _context.tb_Shop.ToList();
+
+        return View(model);
+    }
+
+
+    // ===== EDIT =====
+    public IActionResult Edit(int id)
+    {
+        var product = _context.tb_Product.Find(id);
+
+        if (product == null)
+            return NotFound();
+
+        ViewBag.Categories = _context.tb_ProductCategory.ToList();
+        ViewBag.Brands = _context.tb_Brand.ToList();
+        ViewBag.Shops = _context.tb_Shop.ToList();
+
+        return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(Product model)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.tb_Product.Update(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        ViewBag.Categories = _context.tb_ProductCategory.ToList();
+        ViewBag.Brands = _context.tb_Brand.ToList();
+        ViewBag.Shops = _context.tb_Shop.ToList();
+
+        return View(model);
+    }
+
+
+    // ===== DELETE =====
+    public IActionResult Delete(int id)
+    {
+        var product = _context.tb_Product.Find(id);
+
+        if (product != null)
+        {
+            _context.tb_Product.Remove(product);
+            _context.SaveChanges();
+        }
+
+        return RedirectToAction("Index");
+    }   
 }
