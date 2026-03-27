@@ -20,6 +20,9 @@ namespace FinalProject
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<WebDbContext>(options =>
+<<<<<<< HEAD
+                options.UseSqlServer(builder.Configuration.GetConnectionString("FinalProject")));
+=======
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("FinalProject"),
                     sqlServerOptionsAction: sqlOptions =>
@@ -32,6 +35,7 @@ namespace FinalProject
                     }
                 )
             );
+>>>>>>> 342cecc507d78faff00b79ec29079f2828c0259e
 
             // Add Identity
             builder.Services.AddDefaultIdentity<User>(options =>
