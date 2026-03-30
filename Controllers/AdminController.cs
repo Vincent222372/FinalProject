@@ -58,7 +58,7 @@ namespace FinalProject.Controllers
         public IActionResult Sellers()
         {
             var sellers = _context.tb_Users
-                .Where(x => x.RoleId == 2)
+                .Where(x => x.Id == 2)
                 .ToList();
 
             return View(sellers);
@@ -140,13 +140,13 @@ namespace FinalProject.Controllers
         // ================= CATEGORY =================
         public IActionResult Categories()
         {
-            return View(_context.ProductCategories.ToList());
+            return View(_context.tb_ProductCategory.ToList());
         }
 
         [HttpPost]
         public IActionResult CreateCategory(ProductCategory cate)
         {
-            _context.ProductCategories.Add(cate);
+            _context.tb_ProductCategory.Add(cate);
             _context.SaveChanges();
 
             return RedirectToAction("Categories");
@@ -154,9 +154,9 @@ namespace FinalProject.Controllers
 
         public IActionResult DeleteCategory(int id)
         {
-            var cate = _context.ProductCategories.Find(id);
+            var cate = _context.tb_ProductCategory.Find(id);
 
-            _context.ProductCategories.Remove(cate);
+            _context.tb_ProductCategory.Remove(cate);
             _context.SaveChanges();
 
             return RedirectToAction("Categories");
@@ -165,13 +165,13 @@ namespace FinalProject.Controllers
         // ================= PROMOTION =================
         public IActionResult Promotions()
         {
-            return View(_context.Promotions.ToList());
+            return View(_context.tb_Promotion.ToList());
         }
 
         [HttpPost]
         public IActionResult CreatePromotion(Promotion promo)
         {
-            _context.Promotions.Add(promo);
+            _context.tb_Promotion.Add(promo);
             _context.SaveChanges();
 
             return RedirectToAction("Promotions");
@@ -179,9 +179,9 @@ namespace FinalProject.Controllers
 
         public IActionResult DeletePromotion(int id)
         {
-            var promo = _context.Promotions.Find(id);
+            var promo = _context.tb_Promotion.Find(id);
 
-            _context.Promotions.Remove(promo);
+            _context.tb_Promotion.Remove(promo);
             _context.SaveChanges();
 
             return RedirectToAction("Promotions");
@@ -212,14 +212,14 @@ namespace FinalProject.Controllers
         // ================= SYSTEM =================
         public IActionResult Settings()
         {
-            var setting = _context.SystemSettings.FirstOrDefault();
+            var setting = _context.tb_SystemSetting.FirstOrDefault();
             return View(setting);
         }
 
         [HttpPost]
         public IActionResult Settings(SystemSetting model)
         {
-            _context.SystemSettings.Update(model);
+            _context.tb_SystemSetting.Update(model);
             _context.SaveChanges();
 
             return RedirectToAction("Settings");

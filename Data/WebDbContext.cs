@@ -21,6 +21,8 @@ namespace FinalProject.Data
         public DbSet<Order> tb_Order { get; set; }
         public DbSet<OrderDetails> tb_OrderDetails { get; set; }
         public DbSet<Brand> tb_Brand { get; set; }
+        public DbSet<Promotion> tb_Promotion { get; set; }
+        public DbSet<SystemSetting> tb_SystemSetting { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
