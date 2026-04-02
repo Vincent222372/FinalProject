@@ -52,9 +52,10 @@
 
 @foreach (var c in ViewBag.Categories)
 {
-    <a href="/Product?cateID=@c.CateID"
-       style="margin-right:10px;
-       @(selectedCategory == c.CateID ? "color:red;font-weight:bold" : "")">
+    <a asp-controller="Product"
+       asp-action="Index"
+       asp-route-categoryId="@c.CateID"
+       style="margin-right:10px; @(selectedCategory == c.CateID ? "color:red;font-weight:bold" : "")">
         @c.CateName
     </a>
 }
