@@ -7,9 +7,7 @@
 
 <div class="shop-container">
 
-   
-
-  
+ 
 
     <!-- SEARCH -->
     <form method="get" asp-action="Index" class="shop-search">
@@ -35,7 +33,8 @@
     <hr />
 
     <!-- CATEGORY -->
-   
+    
+
     <div class="shop-category">
 
         <a href="/Product"
@@ -43,34 +42,7 @@
             All
         </a>
 
-<<<<<<< HEAD
         @foreach (var c in ViewBag.Categories)
-=======
-@foreach (var c in ViewBag.Categories)
-{
-    <a asp-controller="Product"
-       asp-action="Index"
-       asp-route-categoryId="@c.CateID"
-       style="margin-right:10px; @(selectedCategory == c.CateID ? "color:red;font-weight:bold" : "")">
-        @c.CateName
-    </a>
-}
-
-<hr />
-
-<!-- PRODUCT LIST -->
-<div style="display:flex;flex-wrap:wrap;">
-
-    @if (Model.Count == 0)
-    {
-        <p style="color:red;font-weight:bold;">
-            ❌ No products found!
-        </p>
-    }
-    else
-    {
-        @foreach (var item in Model)
->>>>>>> f6287ff2eb574498d4c2a59309053831bd5a81be
         {
             <a href="/Product?cateID=@c.CateID"
                class="@(selectedCategory == c.CateID ? "shop-cate active" : "shop-cate")">
@@ -101,8 +73,8 @@
                        class="shop-link">
 
                         <img src="@(string.IsNullOrEmpty(item.Image)
-                                                                                                               ? Url.Content("~/assets/product-1.jpg")
-                                                                                                               : Url.Content("~/assets/" + item.Image))" />
+                                                                                  ? Url.Content("~/assets/product-1.jpg")
+                                                                                  : Url.Content("~/assets/" + item.Image))" />
 
                 <div class="shop-body">
 
