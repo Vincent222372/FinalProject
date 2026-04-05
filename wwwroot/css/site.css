@@ -1063,3 +1063,98 @@ body {
     .close-popup:hover {
         color: black;
     }
+/* ===============================
+        LIGHT THEME OVERRIDE
+   KHÔNG ĐỔI LAYOUT - CHỈ ĐỔI MÀU
+=================================*/
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #111111;
+    --card-color: #ffffff;
+    --border-color: #eaeaea;
+    --primary: #000000;
+    --secondary: #666666;
+}
+
+/* body sáng */
+body {
+    background: #ffffff !important;
+    color: #111 !important;
+}
+
+/* navbar sáng */
+.navbar,
+.custom-navbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+/* card trắng */
+.product-card,
+.shop-card,
+.cart-box,
+.details-container,
+.admin-card,
+.admin-form,
+.admin-table,
+.login-card,
+.register-card {
+    background: #ffffff !important;
+    border: 1px solid #eee !important;
+}
+
+    /* bảng admin */
+    .admin-table th {
+        background: #111 !important;
+        color: white !important;
+    }
+
+/* button giữ đen */
+.btn,
+.shop-cart-btn,
+.details-cart-btn,
+.admin-btn,
+.login-btn,
+.register-btn {
+    background: #111 !important;
+    color: white !important;
+}
+
+    /* hover */
+    .btn:hover,
+    .shop-cart-btn:hover,
+    .details-cart-btn:hover,
+    .admin-btn:hover {
+        background: #333 !important;
+    }
+
+/* input sáng */
+input,
+select,
+textarea {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    color: #111 !important;
+}
+
+/* admin menu */
+.admin-menu a {
+    background: #fff !important;
+    border: 1px solid #eee !important;
+}
+
+/* cart table */
+.cart-table th {
+    background: #111 !important;
+}
+
+/* popup login */
+.login-popup-box {
+    background: #fff !important;
+}
+
+/* remove gradient dark login */
+body {
+    background: #ffffff !important;
+}
