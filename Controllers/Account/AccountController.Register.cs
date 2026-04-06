@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using FinalProject.ViewModels;
 
 namespace FinalProject.Controllers
 {
@@ -11,14 +12,22 @@ namespace FinalProject.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Register(User user, string password)
+        public async Task<IActionResult> Register(Register model)
         {
-            user.UserName = user.Email;
-            user.CreatedAt = DateTime.Now;
-            user.IsActive = true;
-            user.PhoneNumber = Guid.NewGuid().ToString();
+            if (!ModelState.IsValid) return View(model);
 
-            var result = await _userManager.CreateAsync(user, password);
+            var user = new User
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FullName = model.FullName,
+                PhoneNumber = model.PhoneNumber,
+                CreatedAt = DateTime.Now,
+                IsActive = true,
+                PhoneNumberConfirmed = false
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
@@ -30,9 +39,8 @@ namespace FinalProject.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
-                ViewBag.Error = error.Description;
             }
-            return View(user);
+            return View(model);
         }
     }
 }

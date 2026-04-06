@@ -44,8 +44,14 @@ namespace FinalProject.Controllers
                 };
 
                 var createResult = await _userManager.CreateAsync(user);
-                if (createResult.Succeeded) await _userManager.AddToRoleAsync(user, "User");
-                else return RedirectToAction("Login");
+                if (createResult.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
             }
 
             var claims = new List<Claim>

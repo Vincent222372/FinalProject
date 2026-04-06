@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using FinalProject.ViewModels;
 
 namespace FinalProject.Controllers
 {
@@ -9,23 +10,34 @@ namespace FinalProject.Controllers
         public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(Login model)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (!ModelState.IsValid)
             {
-                ViewBag.Error = "Please do not leave your username and password empty";
-                return View();
+                return View(model);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: true);
+            var result = await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: true);
 
-            if (result.Succeeded) return RedirectToAction("Index", "Home");
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            ViewBag.Error = result.IsLockedOut
-                ? "Your account is temporarily locked. Please try again later"
-                : "Invalid username or password";
+            if (result.IsLockedOut)
+            {
+                ViewBag.Error = "Your account is temporarily locked. Please try again later";
+            }
+            else
+            {
+                ViewBag.Error = "Invalid username or password";
+            }
 
-            return View();
+            return View(model);
         }
 
         public async Task<IActionResult> Logout()
