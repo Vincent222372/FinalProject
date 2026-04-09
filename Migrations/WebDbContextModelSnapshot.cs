@@ -789,21 +789,21 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d427b58f-b63a-4023-aeb8-55af71b3c175",
+                            ConcurrencyStamp = "0b816685-1577-47d4-b246-ae5ba9dd744d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "c2151c05-849c-4f23-8fbd-f7de3eabad9b",
+                            ConcurrencyStamp = "e1147005-12e3-4ce3-abda-ee7f9e70a778",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "5d6611dc-f11b-43db-84c6-6b1e056d054e",
+                            ConcurrencyStamp = "3e985b37-337a-4084-8d74-32f8a2179e4c",
                             Name = "Shop",
                             NormalizedName = "SHOP"
                         });
