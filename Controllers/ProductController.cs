@@ -25,7 +25,7 @@ public class ProductController : Controller
         // ===== FILTER BY CATEGORY =====
         if (categoryId.HasValue)
         {
-            products = products.Where(p => p.CateID == categoryId);
+            products = products.Where(p => p.CateID == cateId);
         }
 
         // ===== SEARCH =====
@@ -76,7 +76,7 @@ public class ProductController : Controller
         // ===== VIEWBAG FOR UI =====
         ViewBag.Categories = _context.tb_ProductCategory.ToList();
         ViewBag.Keyword = keyword;
-        ViewBag.SelectedCategory = categoryId;
+        ViewBag.SelectedCategory = cateId;
         ViewBag.SearchType = searchType;
         ViewBag.MinPrice = minPrice ?? 0;
         ViewBag.MaxPrice = maxPrice ?? 10000;
