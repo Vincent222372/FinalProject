@@ -75,30 +75,9 @@ namespace FinalProject.Data
                     CreatedDate = new DateTime(2026, 3, 23)
                 },
 
-                new ProductCategory
-                {
-                    CateID = 1,
-                    CateName = "Men's Fashion",
-                    SeoTitle = "mens-fashion",
-                    Statuss = true,
-                    Sort = 1,
-                    ParentID = null,
-                    MetaKeywords = "men clothing, fashion, shirts",
-                    MetaDescription = "High quality clothing for men",
-                    CreatedDate = new DateTime(2026, 3, 23)
-                },
-                new ProductCategory
-    {
-        CateID = 2,
-        CateName = "Women's Fashion",
-        SeoTitle = "womens-fashion",
-        Statuss = true,
-        Sort = 2,
-        ParentID = null,
-        MetaKeywords = "dresses, women clothing, fashion",
-        MetaDescription = "Latest fashion trends for women",
-        CreatedDate = new DateTime(2026, 3, 23)
-    },
+                
+    
+  
     new ProductCategory
     {
         CateID = 3,
