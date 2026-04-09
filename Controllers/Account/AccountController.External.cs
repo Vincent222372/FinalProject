@@ -44,14 +44,21 @@ namespace FinalProject.Controllers
                 };
 
                 var createResult = await _userManager.CreateAsync(user);
-                if (createResult.Succeeded) await _userManager.AddToRoleAsync(user, "User");
-                else return RedirectToAction("Login");
+                if (createResult.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
             }
 
             var claims = new List<Claim>
             {
-                new Claim("FullName", googleName ?? user.UserName),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim("FullName", user.FullName ?? googleName ?? user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.FullName ?? googleName ?? user.UserName)
             };
 
             await _signInManager.SignInWithClaimsAsync(user, isPersistent: false, claims);

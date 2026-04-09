@@ -16,60 +16,34 @@
 
     <header>
         <nav class="navbar custom-navbar">
+            @* container-fluid giup nd tran ra hai mep, justify-content-between push 2 div con ve 2 phia *@
+            <div class="container-fluid d-flex justify-content-between align-items-center">
 
-            <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+                <div class="nav-left">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        Fashion Web
+                    </a>
+                </div>
 
-                <!-- LOGO LEFT -->
-                <nav class="navbar custom-navbar">
+                <div class="nav-right">
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
 
-                    <div class="nav-left">
-                        <a class="navbar-brand"
-                               asp-controller="Home"
-                               asp-action="Index">
-                            Fashion Web
-                        </a>
-                    </div>
-
-                    <div class="login-right">
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div class="auth-inline">
-                                
-                                    <span class="welcome-text">
-                                    Welcome,
-                                    @(User.Identity.Name?.Split('@')[0])
-                                    </span>
-                                
-                                <a href="/Account/Logout" class="logout-link">
-                                    Logout
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="auth-inline">
-                                <span class="small-text">
-                                    Don't have an account?
-                                    <a href="/Account/Register" class="register-link">
-                                        Register
-                                    </a>
-                                </span>
-
-                                <a href="/Account/Login" class="login-link">
-                                    Login
-                                </a>
-                            </div>
-                        }
-
-                    </div>
-
-                </nav>
-
+            </div>
         </nav>
     </header>
 
     <div class="container">
+        
+        @if (TempData["SuccessMsg"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMsg"]</div>
+        }
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorMsg"]</div>
+        }
+        
         @RenderBody()
     </div>
 
@@ -111,5 +85,10 @@
             }
     </script>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

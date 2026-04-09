@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using FinalProject.ViewModels;
 
 namespace FinalProject.Controllers
 {
@@ -9,23 +10,46 @@ namespace FinalProject.Controllers
         public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(Login model)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (!ModelState.IsValid) return View(model);
+
+            
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: true);
+
+            if (result.Succeeded)
             {
-                ViewBag.Error = "Please do not leave your username and password empty";
-                return View();
+  
+                var user = await _userManager.FindByNameAsync(model.Username);
+
+                if (user != null)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Shop"))
+                    {
+                        return RedirectToAction("Index", "SellerShop");
+                    }
+                    if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+                }
+                return RedirectToAction("Index", "Home");
             }
 
-            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: true);
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, "Your account is temporarily locked. Please try again later.");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+            }
 
-            if (result.Succeeded) return RedirectToAction("Index", "Home");
-
-            ViewBag.Error = result.IsLockedOut
-                ? "Your account is temporarily locked. Please try again later"
-                : "Invalid username or password";
-
-            return View();
+            return View(model);
         }
 
         public async Task<IActionResult> Logout()

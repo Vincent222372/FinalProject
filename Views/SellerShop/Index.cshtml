@@ -1,44 +1,59 @@
 @model FinalProject.Models.Shop
 
 @{
-    ViewData["Title"] = "My Shop";
+    ViewData["Title"] = "Shop Manager";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-@if (Model == null)
-{
-    <div class="alert alert-warning">No shop found for your account. Contact admin to assign a shop.</div>
-}
-else
-{
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-4">
-            @if (!string.IsNullOrEmpty(Model.LogoUrl))
-            {
-                <img src="~/@Model.LogoUrl" class="img-fluid img-thumbnail" alt="@Model.ShopName" />
-            }
-            <p class="mt-2"><strong>@Model.ShopName</strong></p>
-            <p>@Model.ShopAddress<br />@Model.City, @Model.Country</p>
-            <p><strong>Contact:</strong> @Model.ContactEmail / @Model.ContactPhone</p>
-            <p>
-                <a class="btn btn-primary" asp-action="Edit">Edit Shop Info</a>
-                <a class="btn btn-secondary" asp-action="Reviews">View Reviews (@Model.TotalReviews)</a>
-            </p>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    @if (!string.IsNullOrEmpty(Model.LogoUrl))
+                    {
+                        <img src="~/@Model.LogoUrl" class="img-fluid rounded mb-3" style="max-height: 150px;" alt="Logo" />
+                    }
+                    <h3 class="card-title">@Model.ShopName</h3>
+                    <hr />
+                    <div class="text-start">
+                        <p><strong>Address:</strong> @Model.ShopAddress</p>
+                        <p><strong>City:</strong> @Model.City</p>
+                        <p><strong>Country:</strong> @Model.Country</p>
+                        <p><strong>Contact:</strong> @Model.ContactEmail / @Model.ContactPhone</p>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-outline-primary btn-sm" asp-action="Edit">Edit Info</a>
+                        <a class="btn btn-outline-secondary btn-sm" asp-action="Reviews">Reviews (@Model.TotalReviews)</a>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="col-md-8">
-            <h4>Description</h4>
-            <p>@Model.ShopDescription</p>
-            <dl class="row">
-                <dt class="col-sm-4">Products</dt>
-                <dd class="col-sm-8">@Model.TotalProducts</dd>
+            <div class="card shadow-sm p-4">
+                <h4 class="text-muted border-bottom pb-2">Description</h4>
+                <p class="mt-2">@Model.ShopDescription</p>
 
-                <dt class="col-sm-4">Rating</dt>
-                <dd class="col-sm-8">@Model.RatingAverage.ToString("0.00")</dd>
+                <h4 class="text-muted border-bottom pb-2 mt-4">Performance</h4>
+                <div class="row text-center mt-3">
+                    <div class="col-4">
+                        <div class="h3 mb-0">@Model.TotalProducts</div>
+                        <small class="text-muted text-uppercase">Products</small>
+                    </div>
+                    <div class="col-4">
+                        <div class="h3 mb-0">@Model.RatingAverage.ToString("0.00")</div>
+                        <small class="text-muted text-uppercase">Rating</small>
+                    </div>
+                    <div class="col-4">
+                        <div class="h3 mb-0">@Model.TotalFollowers</div>
+                        <small class="text-muted text-uppercase">Followers</small>
+                    </div>
+                </div>
 
-                <dt class="col-sm-4">Followers</dt>
-                <dd class="col-sm-8">@Model.TotalFollowers</dd>
-            </dl>
+                <div class="mt-5 pt-3 border-top">
+                    <p class="text-muted mb-0 small">Created Date: @Model.CreatedAt.ToString("dd/MM/yyyy")</p>
+                </div>
+            </div>
         </div>
     </div>
-}
+</div>

@@ -21,16 +21,16 @@ public class CartController : Controller
     }
 
     // ADD TO CART
-    public IActionResult AddToCart(int productId)
+    [HttpPost] // Nên dùng HttpPost để bảo mật dữ liệu giỏ hàng
+    public IActionResult AddToCart(int productId, int quantity = 1, string actionType = "add")
     {
         var product = _context.tb_Product.FirstOrDefault(p => p.ProductID == productId);
-
         if (product == null) return NotFound();
 
         var cart = GetCart();
-
         var existingItem = cart.FirstOrDefault(x => x.ProductID == productId);
 
+        // 1. Logic thêm/cập nhật giỏ hàng phải chạy TRƯỚC
         if (existingItem == null)
         {
             cart.Add(new CartItems
@@ -39,17 +39,34 @@ public class CartController : Controller
                 ProductName = product.ProductName,
                 Image = product.Image,
                 Price = product.Price,
-                Quantity = 1
+                Quantity = quantity // Dùng tham số quantity truyền vào
             });
         }
         else
         {
-            existingItem.Quantity++;
+            existingItem.Quantity += quantity;
         }
 
+        // 2. Lưu giỏ hàng mới vào Session/Cookie
         SaveCart(cart);
 
-        return RedirectToAction("Index");
+        // 3. Kiểm tra xem người dùng nhấn nút nào để điều hướng
+        if (!User.Identity.IsAuthenticated)
+        {
+            // Nếu chưa đăng nhập, dù bấm nút nào cũng phải qua trang Login
+            // Lưu ý: returnUrl nên trỏ về trang thanh toán nếu là Buy Now, hoặc trang giỏ hàng nếu là Add
+            string returnUrl = actionType == "buyNow" ? "/Cart/Checkout" : "/Cart";
+            return RedirectToAction("Login", "Account", new { returnUrl = returnUrl });
+        }
+
+        // 4. Nếu đã đăng nhập, phân loại điều hướng theo actionType
+        if (actionType == "buyNow")
+        {
+            return RedirectToAction("Checkout", "Cart");
+        }
+
+        // Mặc định cho Add to Cart là về trang giỏ hàng
+        return RedirectToAction("Index", "Cart");
     }
 
     // REMOVE

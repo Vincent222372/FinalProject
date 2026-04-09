@@ -1,54 +1,73 @@
 ﻿@model FinalProject.Models.Product
 
-<div class="shop-container">
+<h2>🛍 Product Detail</h2>
 
-    <h2 class="shop-title-page">🛍 Product Detail</h2>
+<div style="display:flex;gap:30px;margin-top:20px;">
 
-    <div class="details-container">
+    <!-- IMAGE -->
+    <div>
+        <img src="@(Model.Image ?? "/assets/product-1.jpg")"
+             style="width:300px;height:300px;object-fit:cover;border:1px solid #ccc;" />
+    </div>
 
-        <!-- IMAGE -->
-        <div class="details-image">
-            <img src="@(Model.Image ?? "/assets/product-1.jpg")" />
-        </div>
+    <!-- INFO -->
+    <div>
+        <h2>@Model.ProductName</h2>
 
-        <!-- INFO -->
-        <div class="details-info">
+        <p style="color:red;font-size:20px;font-weight:bold;">
+            @Model.Price VNĐ
+        </p>
 
-            <h2 class="details-name">
-                @Model.ProductName
-            </h2>
+        <p>
+            <b>Category:</b> @Model.Category?.CateName
+        </p>
 
-            <div class="details-price">
-                @Model.Price VNĐ
+        <p>
+            <b>Brand:</b> @Model.Brand?.BrandName
+        </p>
+
+        <p>
+            <b>Shop:</b> @Model.Shop?.ShopName
+        </p>
+
+        <p>
+            <b>Description:</b>
+            <br />
+            @* Removed @Model.Description because 'Description' does not exist on 'Product'. 
+               Please add a 'Description' property to the Product model if needed. *@
+        </p>
+
+        <br />
+
+        <!-- ACTION -->
+        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display: flex; gap: 10px; align-items: center;">
+            <input type="hidden" name="productId" value="@Model.ProductID" />
+
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-size: 12px; color: #666;">Qty:</label>
+                <input type="number" name="quantity" value="1" min="1"
+                       style="width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" />
             </div>
 
-            <div class="details-meta">
-                <p><b>Category:</b> @Model.Category?.CateName</p>
-                <p><b>Brand:</b> @Model.Brand?.BrandName</p>
-                <p><b>Shop:</b> @Model.Shop?.ShopName</p>
-            </div>
-
-            <div class="details-desc">
-                <b>Description:</b>
-                <p>No description available</p>
-            </div>
-
-            <div class="details-actions">
-
-                <a href="/Cart/AddToCart?productId=@Model.ProductID"
-                   class="details-cart-btn">
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit" name="actionType" value="add"
+                        style="background: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
                     🛒 Add to Cart
-                </a>
+                </button>
 
-                <a href="/Product"
-                   class="details-back">
-                    ⬅ Back to List
-                </a>
-
+                <button type="submit" name="actionType" value="buyNow"
+                        style="background: #ff4757; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    ⚡ Buy Now
+                </button>
             </div>
+        </form>
 
-        </div>
+        <br />
+        <a href="/Product" style="color: #666; text-decoration: none;">⬅ Back to List</a>
 
+        <br /><br />
+
+        <a href="/Product">⬅ Back to List</a>
     </div>
 
 </div>
