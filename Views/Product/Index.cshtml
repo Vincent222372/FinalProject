@@ -144,7 +144,7 @@
                                 </form>
 
                                 <!-- ADD TO CART - NÚT PHỤ -->
-                                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                <form onsubmit="addToCart(event, @item.ProductID, '@(string.IsNullOrEmpty(item.Image) ? Url.Content("~/assets/product-1.jpg") : Url.Content("~/assets/" + item.Image))', this)">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductID" />
                                     <input type="hidden" name="actionType" value="add" />
@@ -180,5 +180,50 @@
 
     // Cập nhật giá khi tải trang
     window.onload = updatePriceValues;
+
+
+    function addToCart(event, productId) {
+        event.preventDefault();
+
+        fetch('/Cart/AddToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: 'productId=' + productId +
+                  '&quantity=1' +
+                  '&__RequestVerificationToken=' + getToken()
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("cart-count").innerText = data.count;
+        });
+    }
+
+    function getToken() {
+        return document.querySelector('input[name="__RequestVerificationToken"]').value;
+    }
+        function addToCart(event, productId, imgSrc, form) {
+        event.preventDefault();
+
+        fetch('/Cart/AddToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: 'productId=' + productId +
+                  '&quantity=1' +
+                  '&__RequestVerificationToken=' + form.querySelector('input[name="__RequestVerificationToken"]').value
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            // 👉 gọi animation
+            animateCart(data.count, imgSrc, form);
+
+        });
+    }
 </script>
 

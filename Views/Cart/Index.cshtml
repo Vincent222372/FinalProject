@@ -31,7 +31,10 @@
                 {
                     <tr>
                         <td>
-                            <img src="@item.Image" class="cart-img" />
+                            <img src="@(string.IsNullOrEmpty(item.Image)
+                                                                ? Url.Content("~/assets/product-1.jpg")
+                                                                : Url.Content("~/assets/" + item.Image))"
+                                 class="cart-img" />
                         </td>
 
                         <td>@item.ProductName</td>

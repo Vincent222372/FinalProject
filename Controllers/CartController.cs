@@ -58,6 +58,13 @@ public class CartController : Controller
 
         // 2. Lưu giỏ hàng mới vào Session/Cookie
         SaveCart(cart);
+        // 👉 THÊM ĐOẠN NÀY
+        int count = cart.Sum(x => x.Quantity);
+
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            return Json(new { count = count });
+        }
 
         // 3. Kiểm tra xem người dùng nhấn nút nào để điều hướng
         if (!User.Identity.IsAuthenticated)

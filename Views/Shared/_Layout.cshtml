@@ -16,7 +16,6 @@
 
     <header>
         <nav class="navbar custom-navbar">
-            @* container-fluid giup nd tran ra hai mep, justify-content-between push 2 div con ve 2 phia *@
             <div class="container-fluid d-flex justify-content-between align-items-center">
 
                 <div class="nav-left">
@@ -47,7 +46,6 @@
         @RenderBody()
     </div>
 
-
     <!-- LOGIN POPUP -->
     <div id="loginPopup" class="login-popup">
         <div class="login-popup-box">
@@ -75,6 +73,7 @@
         </div>
     </div>
 
+    <!-- SCRIPT CŨ GIỮ NGUYÊN -->
     <script>
             function openLoginPopup() {
                 document.getElementById("loginPopup").style.display = "flex";
@@ -83,22 +82,78 @@
             function closeLoginPopup() {
                 document.getElementById("loginPopup").style.display = "none";
             }
-                function updateCartCount() {
-                    fetch('/Cart/GetCartCount')
-                        .then(res => res.json())
-                        .then(data => {
-                            document.querySelector('.cart-badge').innerText = data.count;
-                        });
-                }
 
-        // Chạy khi vừa load trang
-        document.addEventListener("DOMContentLoaded", updateCartCount);
+            function updateCartCount() {
+                fetch('/Cart/GetCartCount')
+                    .then(res => res.json())
+                    .then(data => {
+                        document.querySelector('.cart-badge').innerText = data.count;
+                    });
+            }
+
+            document.addEventListener("DOMContentLoaded", updateCartCount);
     </script>
 
+    <!-- 🛒 LẤY COUNT TỪ SESSION -->
+    @using Newtonsoft.Json
+@using FinalProject.Models
+
+@{
+        var session = Context.Session.GetString("Cart");
+        int count = 0;
+
+        if (!string.IsNullOrEmpty(session))
+        {
+            var cart = JsonConvert.DeserializeObject<List<CartItems>>(session);
+            count = cart.Sum(x => x.Quantity);
+        }
+    }
+
+    <!-- 🛒 FLOATING CART -->
     <a href="/Cart" class="floating-cart">
         <span class="cart-icon">🛒</span>
-        <span class="cart-badge">0</span>
+        <span class="cart-badge" id="cart-count">@count</span>
     </a>
+
+    <!-- 🛒✨ HIỆU ỨNG RUNG + BAY -->
+    <script>
+            function animateCart(count, imgSrc, startElement) {
+
+                const badge = document.getElementById("cart-count");
+                badge.innerText = count;
+
+                // 🛒 rung
+                badge.classList.add("animate");
+                setTimeout(() => badge.classList.remove("animate"), 400);
+
+                // 🛍️ bay
+                const cart = document.querySelector(".floating-cart");
+                const img = document.createElement("img");
+
+                img.src = imgSrc;
+                img.classList.add("fly-img");
+
+                document.body.appendChild(img);
+
+                const rectStart = startElement.getBoundingClientRect();
+                img.style.left = rectStart.left + "px";
+                img.style.top = rectStart.top + "px";
+
+                const rectEnd = cart.getBoundingClientRect();
+
+                setTimeout(() => {
+                    img.style.left = rectEnd.left + "px";
+                    img.style.top = rectEnd.top + "px";
+                    img.style.width = "20px";
+                    img.style.height = "20px";
+                    img.style.opacity = "0.5";
+                }, 10);
+
+                setTimeout(() => {
+                    img.remove();
+                }, 800);
+            }
+    </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
