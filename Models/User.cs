@@ -56,8 +56,8 @@ namespace FinalProject.Models
 
         public DateTime? UpdatedAt { get; set; }
 
-        // ===== FOREIGN KEY =====
-        //public int RoleId { get; set; }
+        //===== FOREIGN KEY =====
+        public virtual Shop MyShop { get; set; }
 
         //[ForeignKey("RoleId")]
         //public virtual IdentityRole<int> Role { get; set; } = null!;

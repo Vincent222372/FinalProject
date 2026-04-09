@@ -174,10 +174,10 @@ body {
     position: relative;
 }
 
-    .login-left img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+.login-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     }
 
 .overlay-text {
@@ -187,10 +187,10 @@ body {
     color: white;
 }
 
-    .overlay-text h1 {
-        font-size: 40px;
-        letter-spacing: 3px;
-    }
+.overlay-text h1 {
+    font-size: 40px;
+    letter-spacing: 3px;
+}
 /* RIGHT FORM */
 
 .login-right {
@@ -604,7 +604,10 @@ body {
 }
 
 /* add cart */
-.shop-cart-btn {
+.shop-cart-btn, shop-buy-btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
     display: block;
     margin: 10px;
     text-align: center;
@@ -724,6 +727,16 @@ body {
 /* ===============================
         ADMIN DASHBOARD
 =================================*/
+
+.shop-actions-group {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+}
+
+    .shop-actions-group form {
+        flex: 1; /* Chia đều không gian cho 2 form chứa nút */
+    }
 
 .admin-title {
     font-size: 26px;
@@ -1280,3 +1293,144 @@ h1, h2, h3 {
 .navbar {
     padding-right: 10px !important;
 }
+
+.login-right {
+    position: static !important; /* Ghi đè lại cái absolute cũ để flexbox của layout hoạt động */
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.auth-inline {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Khoảng cách giữa cụm Register và nút Login */
+}
+
+/* Chữ "Don't have an account?" */
+.small-text {
+    font-size: 13.5px;
+    color: #8a7b6a; /* Màu nâu nhạt hợp với theme beige */
+}
+
+/* Link Register gạch chân nhẹ */
+.register-link {
+    color: #3a2f25;
+    font-weight: 600;
+    text-decoration: underline;
+    transition: 0.2s;
+}
+
+.register-link:hover {
+    opacity: 0.5;
+}
+
+/* Nút Login chính - Dùng lại màu thương hiệu #c8a27a bạn đã định nghĩa */
+.login-link {
+    background-color: #c8a27a !important;
+    color: white !important;
+    padding: 8px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: none;
+    display: inline-block;
+}
+
+.login-link:hover {
+    background-color: #b89168 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(200, 162, 122, 0.2);
+}
+
+/* Phần chào hỏi khi đã đăng nhập */
+.welcome-text {
+    font-size: 14px;
+    color: #3a2f25;
+}
+
+.welcome-text b {
+    color: #b07d4f; /* Highlight tên user bằng màu đậm hơn */
+}
+
+/* Nút Logout dạng link đơn giản */
+.logout-link {
+    background-color: #000 !important; /* Đen tuyền */
+    color: #fff !important;
+    padding: 10px 28px;
+    border-radius: 4px; /* Bo góc vuông vức kiểu High-End Fashion */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase; /* Viết hoa toàn bộ cho sang */
+    letter-spacing: 2px; /* Giãn chữ kiểu các hãng thời trang lớn */
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+.logout-link:hover {
+    color: #111;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid #111;
+    padding-bottom: 1px;    
+    margin-left: 5px;
+    transition: 0.2s;
+}
+
+.btn-login-main {
+    background-color: #000 !important;
+    color: #fff !important;
+    padding: 10px 25px !important;
+    border: 1px solid #000 !important;
+    border-radius: 0px !important; /* Vuông vức kiểu high-fashion */
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    display: inline-block !important;
+    transition: 0.3s all ease !important;
+}
+
+    .btn-login-main:hover {
+        background-color: #fff !important;
+        color: #000 !important;
+        box-shadow: 5px 5px 0px #000; /* Hiệu ứng bóng khối đổ về bên phải */
+        transform: translate(-3px, -3px);
+    }
+
+/* CĂN CHỈNH CỤM CHỮ ĐĂNG KÝ */
+.auth-group {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.link-reg {
+    color: #000 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 2px;
+}
+
+    .link-reg:hover {
+        border-bottom-color: #000;
+    }
+
+.shop-buy-btn {
+    background-color: #ff4757;
+    color: white;
+    border: none;
+    transition: background 0.3s;
+}
+
+    .shop-buy-btn:hover {
+        background-color: #e84118;
+        color: white;
+    }

@@ -1,35 +1,31 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using FinalProject.Models
 @inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 
-<ul class="navbar-nav">
+<div class="auth-group">
     @if (SignInManager.IsSignedIn(User))
     {
-        var user = await UserManager.GetUserAsync(User);
-        var display = user?.FullName ?? User.Identity?.Name;
+        <span class="welcome-text">Greetings, <b>@(User.FindFirst("FullName")?.Value ?? User.Identity.Name)</b></span>
 
-        <li class="nav-item">
-            <span class="nav-link text-primary">
-                Greetings, <b>@display</b>
-            </span>
-        </li>
+        @if (User.IsInRole("Shop"))
+        {
+            @* Nếu là chủ shop thì hiện link vào trang quản lý *@
+            <a asp-controller="SellerShop" asp-action="Index" class="btn-login-main">Shop Manager</a>
+        }
+        else if (!User.IsInRole("Admin"))
+        {
+            @* Nếu là khách hàng bình thường thì hiện link để họ nâng cấp lên shop *@
+            <a asp-controller="Account" asp-action="RegisterBusiness" class="link-reg">Open Shop</a>
+        }
 
-        <li class="nav-item">
-            <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
-                <button type="submit" class="nav-link text-danger" style="background:none; border:none;">
-                    Logout
-                </button>
-            </form>
-        </li>
+        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+            <button type="submit" class="btn-logout-link">Logout</button>
+        </form>
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-        </li>
+        <span class="register-text">
+            Don't have an account? <a asp-controller="Account" asp-action="Register" class="link-reg">Register</a>
+        </span>
+        <a asp-controller="Account" asp-action="Login" class="btn-login-main">Login</a>
     }
-</ul>
+</div>

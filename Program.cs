@@ -62,8 +62,9 @@ namespace FinalProject
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
 
-                options.ClaimActions.MapJsonKey("name", "name");
-                options.ClaimActions.MapJsonKey("given_name", "given_name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "given_name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
 
                 options.SaveTokens = true;
 

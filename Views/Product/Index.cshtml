@@ -92,10 +92,25 @@
 
                     </a>
 
-                    <a href="/Cart/AddToCart?productId=@item.ProductID"
-                       class="shop-cart-btn">
-                        🛒 Add to Cart
-                    </a>
+                    <div class="shop-actions-group">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="flex: 1;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <input type="hidden" name="actionType" value="add" />
+                            <button type="submit" class="shop-cart-btn">
+                                🛒 Add to Cart
+                            </button>
+                        </form>
+
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="flex: 1;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <input type="hidden" name="actionType" value="buyNow" />
+                            <button type="submit" class="shop-buy-btn">
+                                ⚡ Buy Now
+                            </button>
+                        </form>
+                    </div>
 
                 </div>
                 }
