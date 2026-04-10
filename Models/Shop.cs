@@ -14,7 +14,7 @@ namespace FinalProject.Models
         public string ShopName { get; set; }
 
         [StringLength(255)]
-        public string LogoUrl { get; set; }
+        public string? LogoUrl { get; set; }
 
         // SQL là XML → map thành string
         public string CoverImageUrl { get; set; }

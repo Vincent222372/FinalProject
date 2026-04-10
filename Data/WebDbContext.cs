@@ -89,7 +89,7 @@ namespace FinalProject.Data
                     Status = true,
                     Image = "white-shirt.jpg",
                     ListImages = "img1.jpg,img2.jpg",
-                    Price = 45.000m,
+                    Price = 45000m,
                     PromotionPrice = 39.99m,
                     VAT = true,
                     Quantity = 100,
@@ -112,7 +112,7 @@ namespace FinalProject.Data
                     Status = true,
                     Image = "floral-dress.jpg",
                     ListImages = "img3.jpg,img4.jpg",
-                    Price = 55.000m,
+                    Price = 55000m,
                     PromotionPrice = 49.00m,
                     VAT = true,
                     Quantity = 50,
@@ -202,6 +202,40 @@ namespace FinalProject.Data
             modelBuilder.Entity<IdentityUserLogin<int>>(entity => entity.ToTable("tb_UserLogins"));
             modelBuilder.Entity<IdentityRoleClaim<int>>(entity => entity.ToTable("tb_RoleClaims"));
             modelBuilder.Entity<IdentityUserToken<int>>(entity => entity.ToTable("tb_UserTokens"));
+
+            // 3. Seed User Admin
+            var adminUserId = 1;
+            var hasher = new PasswordHasher<User>();
+
+            var adminUser = new User
+            {
+                Id = adminUserId,
+                UserName = "admin@fashionstore.com",
+                NormalizedUserName = "ADMIN@FASHIONSTORE.COM",
+                Email = "admin@fashionstore.com",
+                NormalizedEmail = "ADMIN@FASHIONSTORE.COM",
+                EmailConfirmed = true,
+                FullName = "System Administrator",
+                IsActive = true,
+                IsBanned = false,
+                CreatedAt = new DateTime(2026, 3, 23),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            };
+
+            // Mật khẩu là: Admin@123
+            adminUser.PasswordHash = hasher.HashPassword(adminUser, "Admin@123");
+
+            modelBuilder.Entity<User>().HasData(adminUser);
+
+            // 4. Gán Role Admin (Id = 1) cho User Admin (Id = 1) thông qua bảng trung gian
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(
+                new IdentityUserRole<int>
+                {
+                    RoleId = 1, // Khớp với Id của Role Admin bạn đã seed ở trên
+                    UserId = adminUserId
+                }
+            );
         }
     }
 

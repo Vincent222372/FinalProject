@@ -215,7 +215,7 @@ namespace FinalProject.Migrations
                     ShopID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShopName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LogoUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    LogoUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShopDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactEmail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -487,8 +487,9 @@ namespace FinalProject.Migrations
                 columns: new[] { "CateID", "CateName", "CreatedBy", "CreatedDate", "MetaDescription", "MetaKeywords", "ParentID", "SeoTitle", "Sort", "Statuss", "UpdatedBy", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, "Men's Fashion", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "High quality clothing for men", "men clothing, fashion, shirts", null, "mens-fashion", null, true, null, null },
-                    { 2, "Women's Fashion", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Latest fashion trends for women", "dresses, women clothing, skirts", null, "womens-fashion", null, true, null, null }
+                    { 1, "Men's Fashion", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "High quality clothing for men", "men clothing, fashion", null, "mens-fashion", 1, true, null, null },
+                    { 2, "Women's Fashion", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Latest fashion trends for women", "dresses, women fashion", null, "womens-fashion", 2, true, null, null },
+                    { 3, "Accessories", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Fashion accessories for everyone", "bags, watches, jewelry", null, "accessories", 3, true, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -496,9 +497,27 @@ namespace FinalProject.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "7ee01e43-7327-4728-8255-f840936d1168", "Admin", "ADMIN" },
-                    { 2, "cdb84e88-a34a-4fa2-9a79-27a04d15c356", "User", "USER" },
-                    { 3, "c7a20c5a-18c2-43ae-849d-251ed9a46c1c", "Shop", "SHOP" }
+                    { 1, "b92c033a-3350-460d-8889-974d35a3f57f", "Admin", "ADMIN" },
+                    { 2, "e4179c65-02ec-4c1b-a7b4-022662108d51", "User", "USER" },
+                    { 3, "db83486f-04e0-44fe-b5dd-5a4c5cbad175", "Shop", "SHOP" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "tb_Users",
+                columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarUrl", "City", "ConcurrencyStamp", "Country", "CreatedAt", "DateOfBirth", "Email", "EmailConfirmed", "EmailVerified", "FullName", "Gender", "IsActive", "IsBanned", "LastLogin", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhoneVerified", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
+                values: new object[] { 1, 0, null, null, null, "bf72cb8e-4bcb-4aee-9519-a526a27a07be", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fashionstore.com", true, false, "System Administrator", null, true, false, null, false, null, "ADMIN@FASHIONSTORE.COM", "ADMIN@FASHIONSTORE.COM", "AQAAAAIAAYagAAAAEO78mee2Ea9uDFUKkCwM9vH4/80Cv8xG8ZVn1GkyOaj8yKKagm+SR9pbPFiHFkCekg==", null, false, false, "4720b85b-48e9-4687-9e8a-2b4bd8cfaf6e", false, null, "admin@fashionstore.com" });
+
+            migrationBuilder.InsertData(
+                table: "tb_ProductCategory",
+                columns: new[] { "CateID", "CateName", "CreatedBy", "CreatedDate", "MetaDescription", "MetaKeywords", "ParentID", "SeoTitle", "Sort", "Statuss", "UpdatedBy", "UpdatedDate" },
+                values: new object[,]
+                {
+                    { 4, "Men's Torso", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stylish shirts for men", "t-shirts, polo", 1, "mens-torso", 1, true, null, null },
+                    { 5, "Men's Leggings", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Comfortable pants for men", "jeans, trousers", 1, "mens-leggings", 2, true, null, null },
+                    { 6, "Dresses & Skirts", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Beautiful dresses for ladies", "maxi dress, skirts", 2, "dresses-skirts", 1, true, null, null },
+                    { 7, "Women's Handbags", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Luxury handbags for women", "purses, totes", 2, "womens-handbags", 2, true, null, null },
+                    { 8, "Footwear", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Quality footwear for all ages", "shoes, sneakers", 3, "footwear", 1, true, null, null },
+                    { 9, "Watches & Jewelry", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Premium timepieces and jewelry", "gold, luxury watches", 3, "watches-jewelry", 2, true, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -507,12 +526,17 @@ namespace FinalProject.Migrations
                 values: new object[] { 1, "Ho Chi Minh City", "support@urbanchic.com", "+84987654321", "Vietnam", "cover-urban.jpg", new DateTime(2026, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), true, false, true, "logo-urban.png", null, 4.80m, 2, "123 ABC Street, District 1", "Premium streetwear and modern fashion trends for the young generation.", "Urban Chic Fashion", 1200, 50, 450, 2500, null });
 
             migrationBuilder.InsertData(
+                table: "tb_UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
                 table: "tb_Product",
                 columns: new[] { "ProductID", "BrandID", "CateID", "CreatedBy", "CreatedDate", "Detail", "Hot", "Image", "ListImages", "MetaDescription", "MetaKeywords", "Price", "ProductDescription", "ProductName", "PromotionPrice", "Quantity", "SeoTitle", "ShopID", "Status", "UpdatedBy", "UpdatedDate", "VAT", "ViewCount" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>Breathable fabric, perfect for office and formal events.</p>", true, "white-shirt.jpg", "img1.jpg,img2.jpg", "Buy premium white oxford shirt at the best price.", "white shirt, oxford shirt, formal", 45.000m, "Classic fit white oxford shirt made from 100% cotton.", "Premium White Oxford Shirt", 39.99m, 100, "premium-white-oxford-shirt", 1, true, null, null, true, 0 },
-                    { 2, 1, 2, null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>Soft chiffon material with adjustable waist strap.</p>", false, "floral-dress.jpg", "img3.jpg,img4.jpg", "Beautiful floral dress for your summer vacation.", "summer dress, floral dress, maxi dress", 55.000m, "Elegant floral print dress for summer outings.", "Floral Summer Maxi Dress", 49.00m, 50, "floral-summer-maxi-dress", 1, true, null, null, true, 0 }
+                    { 1, 1, 1, null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>Breathable fabric, perfect for office and formal events.</p>", true, "white-shirt.jpg", "img1.jpg,img2.jpg", "Buy premium white oxford shirt at the best price.", "white shirt, oxford shirt, formal", 45000m, "Classic fit white oxford shirt made from 100% cotton.", "Premium White Oxford Shirt", 39.99m, 100, "premium-white-oxford-shirt", 1, true, null, null, true, 0 },
+                    { 2, 1, 2, null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "<p>Soft chiffon material with adjustable waist strap.</p>", false, "floral-dress.jpg", "img3.jpg,img4.jpg", "Beautiful floral dress for your summer vacation.", "summer dress, floral dress, maxi dress", 55000m, "Elegant floral print dress for summer outings.", "Floral Summer Maxi Dress", 49.00m, 50, "floral-summer-maxi-dress", 1, true, null, null, true, 0 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -34,7 +34,7 @@ namespace FinalProject.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
-                TempData["SuccessMsg"] = "Your account has been successfully registered";
+                TempData["RegisterSuccess"] = "Your account has been created successfully!";
                 return RedirectToAction("Login");
             }
 
@@ -77,7 +77,8 @@ namespace FinalProject.Controllers
             model.ShopDescription = string.IsNullOrEmpty(model.ShopDescription) ? "Blank" : model.ShopDescription;
             model.City = string.IsNullOrEmpty(model.City) ? "Unknown" : model.City;
             model.Country = string.IsNullOrEmpty(model.Country) ? "Unknown" : model.Country;
-            model.CoverImageUrl = "default-cover.jpg";   
+            model.CoverImageUrl = "default-cover.jpg";
+            model.LogoUrl = "default-logo.png";
 
             ModelState.Remove("City");
             ModelState.Remove("Country");

@@ -135,3 +135,26 @@
     }
 
 </script>
+<script>
+    // Hàm showEye và togglePassword cũ của bạn giữ nguyên ở đây
+    function showEye() { ... }
+    function togglePassword() { ... }
+</script>
+
+@if (TempData["RegisterSuccess"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                title: 'Congratulations!',
+                text: '@TempData["RegisterSuccess"]',
+                icon: 'success',
+                confirmButtonText: 'Login Now',
+                confirmButtonColor: '#333',
+                timer: 4000,
+                timerProgressBar: true
+            });
+        });
+    </script>
+}

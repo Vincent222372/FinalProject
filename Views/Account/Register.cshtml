@@ -10,6 +10,7 @@
         <p class="subtitle">Join our fashion community</p>
 
         <form method="post" action="/Account/Register">
+            <div asp-validation-summary="All" style="color:red; font-size:13px; list-style:none; margin-bottom:10px;"></div>
 
             <div class="input-group">
                 <input type="text" name="FullName" placeholder="Full Name" required>
@@ -20,10 +21,13 @@
             </div>
 
             <div class="input-group">
+                <input type="text" name="PhoneNumber" placeholder="Phone Number" required>
+            </div>
 
+            <div class="input-group">
                 <input type="password"
                        id="password"
-                       name="password"
+                       name="Password" @* Viết hoa chữ P *@
                        placeholder="Password"
                        onkeyup="checkStrength()"
                        required
@@ -41,12 +45,12 @@
                         <li>1 special character</li>
                     </ul>
                 </div>
-
             </div>
 
             <div class="input-group">
                 <input type="password"
                        id="confirmPassword"
+                       name="ConfirmPassword" @* BẮT BUỘC PHẢI CÓ NAME NÀY *@
                        placeholder="Confirm Password"
                        required
                        onfocus="hideRule()"
@@ -64,21 +68,15 @@
             <span>OR</span>
         </div>
 
-        <button class="google-btn"
-                onclick="window.location.href='/Account/GoogleLogin'">
-
+        <button class="google-btn" onclick="window.location.href='/Account/GoogleLogin'">
             <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png">
-
             Register with Google
-
         </button>
 
         <p class="login-link">
             Already have account?
             <a href="/Account/Login">Login</a>
         </p>
-
-        <p style="color:red">@ViewBag.Error</p>
 
     </div>
 </div>
@@ -138,3 +136,4 @@
         }
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

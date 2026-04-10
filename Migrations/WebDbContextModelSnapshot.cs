@@ -311,7 +311,7 @@ namespace FinalProject.Migrations
                             ListImages = "img1.jpg,img2.jpg",
                             MetaDescription = "Buy premium white oxford shirt at the best price.",
                             MetaKeywords = "white shirt, oxford shirt, formal",
-                            Price = 45.000m,
+                            Price = 45000m,
                             ProductDescription = "Classic fit white oxford shirt made from 100% cotton.",
                             ProductName = "Premium White Oxford Shirt",
                             PromotionPrice = 39.99m,
@@ -334,7 +334,7 @@ namespace FinalProject.Migrations
                             ListImages = "img3.jpg,img4.jpg",
                             MetaDescription = "Beautiful floral dress for your summer vacation.",
                             MetaKeywords = "summer dress, floral dress, maxi dress",
-                            Price = 55.000m,
+                            Price = 55000m,
                             ProductDescription = "Elegant floral print dress for summer outings.",
                             ProductName = "Floral Summer Maxi Dress",
                             PromotionPrice = 49.00m,
@@ -409,8 +409,9 @@ namespace FinalProject.Migrations
                             CateName = "Men's Fashion",
                             CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MetaDescription = "High quality clothing for men",
-                            MetaKeywords = "men clothing, fashion, shirts",
+                            MetaKeywords = "men clothing, fashion",
                             SeoTitle = "mens-fashion",
+                            Sort = 1,
                             Statuss = true
                         },
                         new
@@ -419,8 +420,92 @@ namespace FinalProject.Migrations
                             CateName = "Women's Fashion",
                             CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MetaDescription = "Latest fashion trends for women",
-                            MetaKeywords = "dresses, women clothing, skirts",
+                            MetaKeywords = "dresses, women fashion",
                             SeoTitle = "womens-fashion",
+                            Sort = 2,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 3,
+                            CateName = "Accessories",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Fashion accessories for everyone",
+                            MetaKeywords = "bags, watches, jewelry",
+                            SeoTitle = "accessories",
+                            Sort = 3,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 4,
+                            CateName = "Men's Torso",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Stylish shirts for men",
+                            MetaKeywords = "t-shirts, polo",
+                            ParentID = 1,
+                            SeoTitle = "mens-torso",
+                            Sort = 1,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 5,
+                            CateName = "Men's Leggings",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Comfortable pants for men",
+                            MetaKeywords = "jeans, trousers",
+                            ParentID = 1,
+                            SeoTitle = "mens-leggings",
+                            Sort = 2,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 6,
+                            CateName = "Dresses & Skirts",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Beautiful dresses for ladies",
+                            MetaKeywords = "maxi dress, skirts",
+                            ParentID = 2,
+                            SeoTitle = "dresses-skirts",
+                            Sort = 1,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 7,
+                            CateName = "Women's Handbags",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Luxury handbags for women",
+                            MetaKeywords = "purses, totes",
+                            ParentID = 2,
+                            SeoTitle = "womens-handbags",
+                            Sort = 2,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 8,
+                            CateName = "Footwear",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Quality footwear for all ages",
+                            MetaKeywords = "shoes, sneakers",
+                            ParentID = 3,
+                            SeoTitle = "footwear",
+                            Sort = 1,
+                            Statuss = true
+                        },
+                        new
+                        {
+                            CateID = 9,
+                            CateName = "Watches & Jewelry",
+                            CreatedDate = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MetaDescription = "Premium timepieces and jewelry",
+                            MetaKeywords = "gold, luxury watches",
+                            ParentID = 3,
+                            SeoTitle = "watches-jewelry",
+                            Sort = 2,
                             Statuss = true
                         });
                 });
@@ -500,7 +585,6 @@ namespace FinalProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("LogoUrl")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -756,6 +840,30 @@ namespace FinalProject.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("tb_Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bf72cb8e-4bcb-4aee-9519-a526a27a07be",
+                            CreatedAt = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@fashionstore.com",
+                            EmailConfirmed = true,
+                            EmailVerified = false,
+                            FullName = "System Administrator",
+                            IsActive = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@FASHIONSTORE.COM",
+                            NormalizedUserName = "ADMIN@FASHIONSTORE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO78mee2Ea9uDFUKkCwM9vH4/80Cv8xG8ZVn1GkyOaj8yKKagm+SR9pbPFiHFkCekg==",
+                            PhoneNumberConfirmed = false,
+                            PhoneVerified = false,
+                            SecurityStamp = "4720b85b-48e9-4687-9e8a-2b4bd8cfaf6e",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@fashionstore.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -791,21 +899,21 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "7ee01e43-7327-4728-8255-f840936d1168",
+                            ConcurrencyStamp = "b92c033a-3350-460d-8889-974d35a3f57f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "cdb84e88-a34a-4fa2-9a79-27a04d15c356",
+                            ConcurrencyStamp = "e4179c65-02ec-4c1b-a7b4-022662108d51",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "c7a20c5a-18c2-43ae-849d-251ed9a46c1c",
+                            ConcurrencyStamp = "db83486f-04e0-44fe-b5dd-5a4c5cbad175",
                             Name = "Shop",
                             NormalizedName = "SHOP"
                         });
@@ -895,6 +1003,13 @@ namespace FinalProject.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("tb_UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
