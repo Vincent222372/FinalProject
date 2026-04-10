@@ -182,24 +182,21 @@
                             </a>
 
                             <div class="shop-actions-group">
-
-                                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post"
+                                      onsubmit="addToCart(event, @item.ProductID, this)">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductID" />
                                     <input type="hidden" name="actionType" value="buyNow" />
-                                    <button type="submit" class="shop-buy-btn">
-                                        ⚡ Buy Now
-                                    </button>
+                                    <button type="submit" class="shop-buy-btn">⚡ Buy Now</button>
                                 </form>
 
-                                <form onsubmit="addToCart(event, @item.ProductID, '@(string.IsNullOrEmpty(item.Image) ? Url.Content("~/assets/product-1.jpg") : Url.Content("~/assets/" + item.Image))', this)">
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post"
+                                      onsubmit="addToCart(event, @item.ProductID, this)">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductID" />
-                                    <button type="submit" class="shop-cart-btn">
-                                        🛒 Add to Cart
-                                    </button>
+                                    <input type="hidden" name="actionType" value="add" />
+                                    <button type="submit" class="shop-cart-btn">🛒 Add to Cart</button>
                                 </form>
-
                             </div>
 
                         </div>
@@ -223,6 +220,36 @@
 
         document.getElementById("minPriceValue").innerText = formatCurrency(minPrice);
         document.getElementById("maxPriceValue").innerText = formatCurrency(maxPrice);
+    }
+
+    
+
+    function addToCart(event, productId, formElement) {
+        event.preventDefault();
+        const formData = new FormData(formElement);
+
+        fetch(formElement.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.redirectUrl) {
+                    // Chuyển hướng nếu là Buy Now hoặc chưa Login
+                    window.location.href = data.redirectUrl;
+                } else {
+                    // Thông báo nếu chỉ là thêm vào giỏ hàng
+                    alert(Added to cart successfully!);
+                }
+            } else {
+                alert(data.message || Error adding to cart);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     window.onload = updatePriceValues;

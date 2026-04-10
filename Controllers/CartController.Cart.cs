@@ -14,7 +14,7 @@ public partial class CartController
     public IActionResult AddToCart(int productId, int quantity = 1, string actionType = "add")
     {
         var product = _context.tb_Product.FirstOrDefault(p => p.ProductID == productId);
-        if (product == null) return NotFound();
+        if (product == null) return Json(new { success = false, message = "Không tìm thấy sản phẩm" });
 
         var cart = GetCart();
         var existingItem = cart.FirstOrDefault(x => x.ProductID == productId);
@@ -37,14 +37,23 @@ public partial class CartController
 
         SaveCart(cart);
 
+        // 1. Kiểm tra đăng nhập trước
         if (!User.Identity.IsAuthenticated)
         {
-            string returnUrl = actionType == "buyNow" ? "/Cart/Checkout" : "/Cart";
-            return RedirectToAction("Login", "Account", new { returnUrl = returnUrl });
+            string loginUrl = Url.Action("Login", "Account", new
+            {
+                returnUrl = actionType == "buyNow" ? "/Cart/Checkout" : "/Cart"
+            });
+
+            return Json(new { success = true, redirectUrl = loginUrl });
         }
 
-        if (actionType == "buyNow") return RedirectToAction("Checkout", "Cart");
-        return RedirectToAction("Index", "Cart");
+        // 2. Nếu đã đăng nhập, trả về URL tương ứng với hành động
+        return Json(new
+        {
+            success = true,
+            redirectUrl = actionType == "buyNow" ? "/Cart/Checkout" : null
+        });
     }
 
     public IActionResult Remove(int id)
