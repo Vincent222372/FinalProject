@@ -182,21 +182,22 @@
                             </a>
 
                             <div class="shop-actions-group">
-                                <form asp-controller="Cart" asp-action="AddToCart" method="post"
-                                      onsubmit="addToCart(event, @item.ProductID, this)">
+
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductID" />
                                     <input type="hidden" name="actionType" value="buyNow" />
                                     <button type="submit" class="shop-buy-btn">⚡ Buy Now</button>
                                 </form>
 
-                                <form asp-controller="Cart" asp-action="AddToCart" method="post"
-                                      onsubmit="addToCart(event, @item.ProductID, this)">
+                                <form onsubmit="addToCart(event, @item.ProductID, '@(string.IsNullOrEmpty(item.Image) ? Url.Content("~/assets/product-1.jpg") : Url.Content("~/assets/" + item.Image))', this)">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductID" />
-                                    <input type="hidden" name="actionType" value="add" />
-                                    <button type="submit" class="shop-cart-btn">🛒 Add to Cart</button>
+                                    <button type="submit" class="shop-cart-btn">
+                                        🛒 Add to Cart
+                                    </button>
                                 </form>
+
                             </div>
 
                         </div>
@@ -210,47 +211,66 @@
 </div>
 
 <script>
-    function formatCurrency(value) {
-        return Number(value).toLocaleString('vi-VN') + " VNĐ";
+      function animateCart(count, imgSrc, startElement) {
+
+        // 🛒 update số
+        const badge = document.getElementById("cart-count");
+        badge.innerText = count;
+
+        // 🛒 rung badge
+        badge.classList.add("animate");
+        setTimeout(() => badge.classList.remove("animate"), 400);
+
+        // 🛍️ hiệu ứng bay
+        const cart = document.querySelector(".floating-cart");
+        const img = document.createElement("img");
+
+        img.src = imgSrc;
+        img.classList.add("fly-img");
+
+        document.body.appendChild(img);
+
+        // vị trí bắt đầu
+        const rectStart = startElement.getBoundingClientRect();
+        img.style.left = rectStart.left + "px";
+        img.style.top = rectStart.top + "px";
+
+        // vị trí kết thúc (cart)
+        const rectEnd = cart.getBoundingClientRect();
+
+        setTimeout(() => {
+            img.style.left = rectEnd.left + "px";
+            img.style.top = rectEnd.top + "px";
+            img.style.width = "20px";
+            img.style.height = "20px";
+            img.style.opacity = "0.5";
+        }, 10);
+
+        // xóa sau khi bay xong
+        setTimeout(() => {
+            img.remove();
+        }, 800);
     }
-
-    function updatePriceValues() {
-        var minPrice = document.querySelector("input[name='minPrice']").value;
-        var maxPrice = document.querySelector("input[name='maxPrice']").value;
-
-        document.getElementById("minPriceValue").innerText = formatCurrency(minPrice);
-        document.getElementById("maxPriceValue").innerText = formatCurrency(maxPrice);
-    }
-
-    
-
-    function addToCart(event, productId, formElement) {
+        function addToCart(event, productId, imgSrc, form) {
         event.preventDefault();
-        const formData = new FormData(formElement);
 
-        fetch(formElement.action, {
+        fetch('/Cart/AddToCart', {
             method: 'POST',
-            body: formData,
             headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
                 'X-Requested-With': 'XMLHttpRequest'
-            }
+            },
+            body: 'productId=' + productId +
+                  '&quantity=1' +
+                  '&__RequestVerificationToken=' + form.querySelector('input[name="__RequestVerificationToken"]').value
         })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            if (data.success) {
-                if (data.redirectUrl) {
-                    // Chuyển hướng nếu là Buy Now hoặc chưa Login
-                    window.location.href = data.redirectUrl;
-                } else {
-                    // Thông báo nếu chỉ là thêm vào giỏ hàng
-                    alert(Added to cart successfully!);
-                }
-            } else {
-                alert(data.message || Error adding to cart);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+
+            // 👉 gọi animation
+            animateCart(data.count, imgSrc, form);
+
+        });
     }
 
-    window.onload = updatePriceValues;
 </script>
