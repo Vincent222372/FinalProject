@@ -24,6 +24,7 @@ namespace FinalProject.Data
         public DbSet<Promotion> tb_Promotion { get; set; }
         public DbSet<SystemSetting> tb_SystemSetting { get; set; }
         public DbSet<ShopReview> tb_ShopReview { get; set; }
+        public DbSet<SystemLog> tb_SystemLog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

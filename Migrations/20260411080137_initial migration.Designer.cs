@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20260410034654_initial migration")]
+    [Migration("20260411080137_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -702,6 +702,35 @@ namespace FinalProject.Migrations
                     b.ToTable("tb_ShopReview");
                 });
 
+            modelBuilder.Entity("FinalProject.Models.SystemLog", b =>
+                {
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LogId"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LogId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tb_SystemLog");
+                });
+
             modelBuilder.Entity("FinalProject.Models.SystemSetting", b =>
                 {
                     b.Property<int>("ID")
@@ -849,7 +878,7 @@ namespace FinalProject.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf72cb8e-4bcb-4aee-9519-a526a27a07be",
+                            ConcurrencyStamp = "53db8942-8eaa-46b3-a944-54be51f2682e",
                             CreatedAt = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@fashionstore.com",
                             EmailConfirmed = true,
@@ -860,10 +889,10 @@ namespace FinalProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FASHIONSTORE.COM",
                             NormalizedUserName = "ADMIN@FASHIONSTORE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO78mee2Ea9uDFUKkCwM9vH4/80Cv8xG8ZVn1GkyOaj8yKKagm+SR9pbPFiHFkCekg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELVlwYAqQORql9rOBLPda673zJZl67moilcsBe47b42krMxLd61W4HdBfUu5pgt2VA==",
                             PhoneNumberConfirmed = false,
                             PhoneVerified = false,
-                            SecurityStamp = "4720b85b-48e9-4687-9e8a-2b4bd8cfaf6e",
+                            SecurityStamp = "b098792e-9223-4e5c-b978-f1072cea8771",
                             TwoFactorEnabled = false,
                             UserName = "admin@fashionstore.com"
                         });
@@ -902,21 +931,21 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b92c033a-3350-460d-8889-974d35a3f57f",
+                            ConcurrencyStamp = "3fc31036-8501-4987-b9a2-f832246bd7f4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "e4179c65-02ec-4c1b-a7b4-022662108d51",
+                            ConcurrencyStamp = "5d78a6ce-24ba-4304-a229-b814d110e16b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "db83486f-04e0-44fe-b5dd-5a4c5cbad175",
+                            ConcurrencyStamp = "ec8f13d0-2bff-49b0-8bc4-a649179a14fe",
                             Name = "Shop",
                             NormalizedName = "SHOP"
                         });
@@ -1155,6 +1184,17 @@ namespace FinalProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.SystemLog", b =>
+                {
+                    b.HasOne("FinalProject.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

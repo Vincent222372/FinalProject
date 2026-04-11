@@ -252,6 +252,28 @@ namespace FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tb_SystemLog",
+                columns: table => new
+                {
+                    LogId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tb_SystemLog", x => x.LogId);
+                    table.ForeignKey(
+                        name: "FK_tb_SystemLog_tb_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "tb_Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tb_UserClaims",
                 columns: table => new
                 {
@@ -497,15 +519,15 @@ namespace FinalProject.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "b92c033a-3350-460d-8889-974d35a3f57f", "Admin", "ADMIN" },
-                    { 2, "e4179c65-02ec-4c1b-a7b4-022662108d51", "User", "USER" },
-                    { 3, "db83486f-04e0-44fe-b5dd-5a4c5cbad175", "Shop", "SHOP" }
+                    { 1, "3fc31036-8501-4987-b9a2-f832246bd7f4", "Admin", "ADMIN" },
+                    { 2, "5d78a6ce-24ba-4304-a229-b814d110e16b", "User", "USER" },
+                    { 3, "ec8f13d0-2bff-49b0-8bc4-a649179a14fe", "Shop", "SHOP" }
                 });
 
             migrationBuilder.InsertData(
                 table: "tb_Users",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarUrl", "City", "ConcurrencyStamp", "Country", "CreatedAt", "DateOfBirth", "Email", "EmailConfirmed", "EmailVerified", "FullName", "Gender", "IsActive", "IsBanned", "LastLogin", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhoneVerified", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
-                values: new object[] { 1, 0, null, null, null, "bf72cb8e-4bcb-4aee-9519-a526a27a07be", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fashionstore.com", true, false, "System Administrator", null, true, false, null, false, null, "ADMIN@FASHIONSTORE.COM", "ADMIN@FASHIONSTORE.COM", "AQAAAAIAAYagAAAAEO78mee2Ea9uDFUKkCwM9vH4/80Cv8xG8ZVn1GkyOaj8yKKagm+SR9pbPFiHFkCekg==", null, false, false, "4720b85b-48e9-4687-9e8a-2b4bd8cfaf6e", false, null, "admin@fashionstore.com" });
+                values: new object[] { 1, 0, null, null, null, "53db8942-8eaa-46b3-a944-54be51f2682e", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fashionstore.com", true, false, "System Administrator", null, true, false, null, false, null, "ADMIN@FASHIONSTORE.COM", "ADMIN@FASHIONSTORE.COM", "AQAAAAIAAYagAAAAELVlwYAqQORql9rOBLPda673zJZl67moilcsBe47b42krMxLd61W4HdBfUu5pgt2VA==", null, false, false, "b098792e-9223-4e5c-b978-f1072cea8771", false, null, "admin@fashionstore.com" });
 
             migrationBuilder.InsertData(
                 table: "tb_ProductCategory",
@@ -624,6 +646,11 @@ namespace FinalProject.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tb_SystemLog_UserId",
+                table: "tb_SystemLog",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tb_UserClaims_UserId",
                 table: "tb_UserClaims",
                 column: "UserId");
@@ -668,6 +695,9 @@ namespace FinalProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "tb_ShopReview");
+
+            migrationBuilder.DropTable(
+                name: "tb_SystemLog");
 
             migrationBuilder.DropTable(
                 name: "tb_SystemSetting");

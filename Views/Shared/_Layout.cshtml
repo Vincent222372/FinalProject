@@ -25,6 +25,15 @@
                 </div>
 
                 <div class="nav-right">
+                    
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-sm btn-outline-danger me-2" asp-controller="Admin" asp-action="Index">
+                            <span class="admin-icon">⚙️</span> Dashboard
+                        </a>
+                    }
+                    @* ---------------------- *@
+
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
 
