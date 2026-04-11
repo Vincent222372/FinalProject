@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\asset\**" />
+    <Compile Remove="wwwroot\images\**" />
     <Content Remove="wwwroot\asset\**" />
+    <Content Remove="wwwroot\images\**" />
     <EmbeddedResource Remove="wwwroot\asset\**" />
+    <EmbeddedResource Remove="wwwroot\images\**" />
     <None Remove="wwwroot\asset\**" />
+    <None Remove="wwwroot\images\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +35,7 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Models\Momo\" />
+    <Folder Include="wwwroot\imagess\" />
   </ItemGroup>
 
 </Project>

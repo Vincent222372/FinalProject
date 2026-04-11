@@ -1,4 +1,5 @@
 using FinalProject.Data;
+using FinalProject.Filters;
 using FinalProject.Models;
 using FinalProject.Models.Momo;
 using FinalProject.Services.Email;
@@ -8,11 +9,11 @@ using FinalProject.Services.ZaloPay;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
-using Microsoft.AspNetCore.DataProtection;
 
 namespace FinalProject
 {
@@ -29,7 +30,10 @@ namespace FinalProject
                 .SetApplicationName("FinalProject_Unique_Name");
 
             // Add services to the container
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<SystemLogFilter>();
+            });
 
             // Database
             builder.Services.AddDbContext<WebDbContext>(options =>
@@ -121,6 +125,8 @@ namespace FinalProject
             
             // zalopay
             builder.Services.AddScoped<IZaloPayService, ZaloPayService>();
+            builder.Services.AddScoped<SystemLogFilter>();
+
 
 
             var app = builder.Build();

@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-<<<<<<<< HEAD:Migrations/20260411074403_initial migration.Designer.cs
-    [Migration("20260411074403_initial migration")]
-========
-    [Migration("20260411080137_initial migration")]
->>>>>>>> eddc9f358328607306a4d437fa73b8434c37db8c:Migrations/20260411080137_initial migration.Designer.cs
+    [Migration("20260411080706_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -882,11 +878,7 @@ namespace FinalProject.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-<<<<<<<< HEAD:Migrations/20260411074403_initial migration.Designer.cs
-                            ConcurrencyStamp = "9e12e16c-8a67-4639-b937-7c57c31b215d",
-========
-                            ConcurrencyStamp = "53db8942-8eaa-46b3-a944-54be51f2682e",
->>>>>>>> eddc9f358328607306a4d437fa73b8434c37db8c:Migrations/20260411080137_initial migration.Designer.cs
+                            ConcurrencyStamp = "42f8d385-ef91-42de-8fc6-72f9a9fa2fb5",
                             CreatedAt = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@fashionstore.com",
                             EmailConfirmed = true,
@@ -897,17 +889,10 @@ namespace FinalProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FASHIONSTORE.COM",
                             NormalizedUserName = "ADMIN@FASHIONSTORE.COM",
-<<<<<<<< HEAD:Migrations/20260411074403_initial migration.Designer.cs
-                            PasswordHash = "AQAAAAIAAYagAAAAEFXExTKUSvc4R9JOqyGp6rfpGh26neXHuqQ5UjVr7/diy4Pzhj9Mwo9uSczMs6Svkw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFqQfCyUWD5K2g+ThaFUUrcu/pURLyP1JSMdp0V6SHTNQmDtPEndpgyNCfR2uL2Xkg==",
                             PhoneNumberConfirmed = false,
                             PhoneVerified = false,
-                            SecurityStamp = "90d4fadb-1e01-4c78-9763-e0ba771d9cdb",
-========
-                            PasswordHash = "AQAAAAIAAYagAAAAELVlwYAqQORql9rOBLPda673zJZl67moilcsBe47b42krMxLd61W4HdBfUu5pgt2VA==",
-                            PhoneNumberConfirmed = false,
-                            PhoneVerified = false,
-                            SecurityStamp = "b098792e-9223-4e5c-b978-f1072cea8771",
->>>>>>>> eddc9f358328607306a4d437fa73b8434c37db8c:Migrations/20260411080137_initial migration.Designer.cs
+                            SecurityStamp = "4d953096-3207-44ca-9a7b-f0c7921a24c7",
                             TwoFactorEnabled = false,
                             UserName = "admin@fashionstore.com"
                         });
@@ -946,33 +931,21 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = 1,
-<<<<<<<< HEAD:Migrations/20260411074403_initial migration.Designer.cs
-                            ConcurrencyStamp = "e6749891-4dfc-4e8c-8a09-968b93d48d62",
-========
-                            ConcurrencyStamp = "3fc31036-8501-4987-b9a2-f832246bd7f4",
->>>>>>>> eddc9f358328607306a4d437fa73b8434c37db8c:Migrations/20260411080137_initial migration.Designer.cs
+                            ConcurrencyStamp = "f67cdaca-0a32-4125-9183-3de90b2a6aae",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-<<<<<<<< HEAD:Migrations/20260411074403_initial migration.Designer.cs
-                            ConcurrencyStamp = "4ec3d28e-8620-4a95-966a-593c6d9a8eaa",
-========
-                            ConcurrencyStamp = "5d78a6ce-24ba-4304-a229-b814d110e16b",
->>>>>>>> eddc9f358328607306a4d437fa73b8434c37db8c:Migrations/20260411080137_initial migration.Designer.cs
+                            ConcurrencyStamp = "2627f19c-9935-42b7-ae87-b26bf685fe1e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 3,
-<<<<<<<< HEAD:Migrations/20260411074403_initial migration.Designer.cs
-                            ConcurrencyStamp = "fffe8e6c-4221-4447-8125-88f2e48cae7b",
-========
-                            ConcurrencyStamp = "ec8f13d0-2bff-49b0-8bc4-a649179a14fe",
->>>>>>>> eddc9f358328607306a4d437fa73b8434c37db8c:Migrations/20260411080137_initial migration.Designer.cs
+                            ConcurrencyStamp = "d9cde4cb-606c-4b96-ae62-06507f30a673",
                             Name = "Shop",
                             NormalizedName = "SHOP"
                         });
