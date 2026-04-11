@@ -187,9 +187,7 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductID" />
                                     <input type="hidden" name="actionType" value="buyNow" />
-                                    <button type="submit" class="shop-buy-btn">
-                                        ⚡ Buy Now
-                                    </button>
+                                    <button type="submit" class="shop-buy-btn">⚡ Buy Now</button>
                                 </form>
 
                                 <form onsubmit="addToCart(event, @item.ProductID, '@(string.IsNullOrEmpty(item.Image) ? Url.Content("~/assets/product-1.jpg") : Url.Content("~/assets/" + item.Image))', this)">
