@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20260410034654_initial migration")]
+    [Migration("20260411074403_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -849,7 +849,7 @@ namespace FinalProject.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf72cb8e-4bcb-4aee-9519-a526a27a07be",
+                            ConcurrencyStamp = "9e12e16c-8a67-4639-b937-7c57c31b215d",
                             CreatedAt = new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@fashionstore.com",
                             EmailConfirmed = true,
@@ -860,10 +860,10 @@ namespace FinalProject.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FASHIONSTORE.COM",
                             NormalizedUserName = "ADMIN@FASHIONSTORE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO78mee2Ea9uDFUKkCwM9vH4/80Cv8xG8ZVn1GkyOaj8yKKagm+SR9pbPFiHFkCekg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFXExTKUSvc4R9JOqyGp6rfpGh26neXHuqQ5UjVr7/diy4Pzhj9Mwo9uSczMs6Svkw==",
                             PhoneNumberConfirmed = false,
                             PhoneVerified = false,
-                            SecurityStamp = "4720b85b-48e9-4687-9e8a-2b4bd8cfaf6e",
+                            SecurityStamp = "90d4fadb-1e01-4c78-9763-e0ba771d9cdb",
                             TwoFactorEnabled = false,
                             UserName = "admin@fashionstore.com"
                         });
@@ -902,21 +902,21 @@ namespace FinalProject.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b92c033a-3350-460d-8889-974d35a3f57f",
+                            ConcurrencyStamp = "e6749891-4dfc-4e8c-8a09-968b93d48d62",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "e4179c65-02ec-4c1b-a7b4-022662108d51",
+                            ConcurrencyStamp = "4ec3d28e-8620-4a95-966a-593c6d9a8eaa",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "db83486f-04e0-44fe-b5dd-5a4c5cbad175",
+                            ConcurrencyStamp = "fffe8e6c-4221-4447-8125-88f2e48cae7b",
                             Name = "Shop",
                             NormalizedName = "SHOP"
                         });
