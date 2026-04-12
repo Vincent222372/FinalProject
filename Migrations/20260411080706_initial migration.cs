@@ -519,15 +519,15 @@ namespace FinalProject.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "3fc31036-8501-4987-b9a2-f832246bd7f4", "Admin", "ADMIN" },
-                    { 2, "5d78a6ce-24ba-4304-a229-b814d110e16b", "User", "USER" },
-                    { 3, "ec8f13d0-2bff-49b0-8bc4-a649179a14fe", "Shop", "SHOP" }
+                    { 1, "f67cdaca-0a32-4125-9183-3de90b2a6aae", "Admin", "ADMIN" },
+                    { 2, "2627f19c-9935-42b7-ae87-b26bf685fe1e", "User", "USER" },
+                    { 3, "d9cde4cb-606c-4b96-ae62-06507f30a673", "Shop", "SHOP" }
                 });
 
             migrationBuilder.InsertData(
                 table: "tb_Users",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarUrl", "City", "ConcurrencyStamp", "Country", "CreatedAt", "DateOfBirth", "Email", "EmailConfirmed", "EmailVerified", "FullName", "Gender", "IsActive", "IsBanned", "LastLogin", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhoneVerified", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
-                values: new object[] { 1, 0, null, null, null, "53db8942-8eaa-46b3-a944-54be51f2682e", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fashionstore.com", true, false, "System Administrator", null, true, false, null, false, null, "ADMIN@FASHIONSTORE.COM", "ADMIN@FASHIONSTORE.COM", "AQAAAAIAAYagAAAAELVlwYAqQORql9rOBLPda673zJZl67moilcsBe47b42krMxLd61W4HdBfUu5pgt2VA==", null, false, false, "b098792e-9223-4e5c-b978-f1072cea8771", false, null, "admin@fashionstore.com" });
+                values: new object[] { 1, 0, null, null, null, "42f8d385-ef91-42de-8fc6-72f9a9fa2fb5", null, new DateTime(2026, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fashionstore.com", true, false, "System Administrator", null, true, false, null, false, null, "ADMIN@FASHIONSTORE.COM", "ADMIN@FASHIONSTORE.COM", "AQAAAAIAAYagAAAAEFqQfCyUWD5K2g+ThaFUUrcu/pURLyP1JSMdp0V6SHTNQmDtPEndpgyNCfR2uL2Xkg==", null, false, false, "4d953096-3207-44ca-9a7b-f0c7921a24c7", false, null, "admin@fashionstore.com" });
 
             migrationBuilder.InsertData(
                 table: "tb_ProductCategory",

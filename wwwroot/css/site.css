@@ -120,19 +120,6 @@ body {
     font-weight: bold;
 }
 
-.hero {
-    height: 450px;
-    background: url('/images/banner.jpg') center/cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-    .hero h1 {
-        font-size: 60px;
-    }
 
 .btn {
     background: black;
@@ -405,40 +392,7 @@ body {
     opacity: 0.9;
 }
 
-.hero {
-    height: 90vh;
-    background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('/images/banner.jpg') center/cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-}
 
-.hero-content h1 {
-    font-size: 60px;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-}
-
-.hero-content p {
-    font-size: 18px;
-    margin-bottom: 25px;
-}
-
-.hero-btn {
-    padding: 14px 40px;
-    background: white;
-    color: black;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-    .hero-btn:hover {
-        background: black;
-        color: white;
-    }
 
 .featured {
     padding: 80px 60px;
@@ -1555,46 +1509,7 @@ h1, h2, h3 {
     }
 }
 
-/* =========================
-        HERO THU NHỎ
-   (Override kích thước cũ)
-=========================*/
 
-.hero {
-    height: 320px !important; /* Giảm từ 90vh xuống kích thước cố định */
-    padding: 40px 20px !important;
-}
-
-.hero-content h1 {
-    font-size: 32px !important; /* Giảm từ 60px */
-    letter-spacing: 2px;
-}
-
-.hero-content p {
-    font-size: 14px !important; /* Giảm kích thước mô tả */
-    margin-bottom: 15px;
-}
-
-.hero-btn {
-    padding: 8px 22px !important; /* Thu nhỏ nút */
-    font-size: 13px !important;
-    letter-spacing: 1px;
-}
-
-/* Responsive cho màn hình nhỏ */
-@media (max-width: 768px) {
-    .hero {
-        height: 260px !important;
-    }
-
-    .hero-content h1 {
-        font-size: 24px !important;
-    }
-
-    .hero-content p {
-        font-size: 13px !important;
-    }
-}
 /* =========================
    LAYOUT FILTER BÊN TRÁI
 =========================*/
@@ -2105,46 +2020,7 @@ h1, h2, h3 {
     }
 }
 
-/* =========================
-        HERO THU NHỎ
-   (Override kích thước cũ)
-=========================*/
 
-.hero {
-    height: 320px !important; /* Giảm từ 90vh xuống kích thước cố định */
-    padding: 40px 20px !important;
-}
-
-.hero-content h1 {
-    font-size: 32px !important; /* Giảm từ 60px */
-    letter-spacing: 2px;
-}
-
-.hero-content p {
-    font-size: 14px !important; /* Giảm kích thước mô tả */
-    margin-bottom: 15px;
-}
-
-.hero-btn {
-    padding: 8px 22px !important; /* Thu nhỏ nút */
-    font-size: 13px !important;
-    letter-spacing: 1px;
-}
-
-/* Responsive cho màn hình nhỏ */
-@media (max-width: 768px) {
-    .hero {
-        height: 260px !important;
-    }
-
-    .hero-content h1 {
-        font-size: 24px !important;
-    }
-
-    .hero-content p {
-        font-size: 13px !important;
-    }
-}
 /* =========================
    LAYOUT FILTER BÊN TRÁI
 =========================*/
@@ -2346,4 +2222,154 @@ h1, h2, h3 {
     height: 60px;
     pointer-events: none;
     transition: all 0.8s cubic-bezier(.65,-0.3,.35,1.5);
+}
+.nav-right {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.auth-group {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px;
+}
+
+    .auth-group form {
+        margin: 0 !important;
+    }
+/* 🔥 HIỆU ỨNG FADE */
+body.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.4s ease;
+}
+/* BACKGROUND SLIDESHOW */
+.bg-slideshow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    z-index: -1;
+
+    filter: blur(8px) brightness(0.6);
+    transition: background-image 1s ease-in-out;
+}
+/* HERO FULL WIDTH */
+.hero-wrapper {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
+
+/* HERO */
+.hero {
+    width: 100%;
+    height: 75vh;
+    min-height: 450px;
+    max-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('/images/banner.jpg') center center / cover no-repeat; /* 🔥 sửa đường dẫn */
+    position: relative;
+    color: white;
+    text-align: center;
+}
+
+    /* OVERLAY (GIỮ NGUYÊN NHẸ, KHÔNG TĂNG TỐI) */
+    .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( rgba(0,0,0,0.25), rgba(0,0,0,0.35) );
+    }
+
+/* CONTENT - thêm nền kính nhẹ */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeHero 1s ease;
+    padding: 30px 50px;
+    border-radius: 12px;
+    /* 🔥 glass effect nhẹ - KHÔNG làm tối ảnh */
+    background: rgba(0,0,0,0.15);
+    backdrop-filter: blur(4px);
+}
+
+    /* TEXT - nâng cấp sang */
+    .hero-content h1 {
+        font-size: 56px;
+        letter-spacing: 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+        /* 🔥 làm chữ nổi */
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 8px 30px rgba(0,0,0,0.4);
+    }
+
+    .hero-content p {
+        font-size: 18px;
+        margin: 15px 0 25px;
+        letter-spacing: 2px;
+        /* 🔥 chữ rõ hơn */
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+/* BUTTON */
+.hero-btn {
+    padding: 12px 34px;
+    background: white;
+    color: black;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+    .hero-btn:hover {
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+    }
+
+/* ANIMATION */
+@keyframes fadeHero {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .hero {
+        height: 55vh;
+    }
+
+    .hero-content {
+        padding: 20px;
+    }
+
+        .hero-content h1 {
+            font-size: 30px;
+            letter-spacing: 3px;
+        }
+
+        .hero-content p {
+            font-size: 14px;
+        }
+}
+.hero-content h1 {
+    background: linear-gradient(white, #ddd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

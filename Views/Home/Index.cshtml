@@ -2,18 +2,14 @@
 
 <!-- HERO -->
 
-<section class="hero">
-
+<section class="hero" id="heroSlide">
     <div class="hero-content">
-
         <h1>NEW COLLECTION 2026</h1>
         <p>Minimal • Streetwear • Local Brand</p>
-
-        <a href="/Product" class="hero-btn">
+        <a asp-controller="Product" asp-action="Index" class="hero-btn">
             SHOP NOW
         </a>
     </div>
-
 </section>
 
 <!-- FEATURED -->
@@ -130,3 +126,21 @@
 
                
             </section>
+            <script>
+                const images = [
+                    '/imagess/anh1.jpg',
+                    '/imagess/anh2.jpg',
+                    '/imagess/anh3.jpg'
+                ];
+
+                let index = 0;
+                const hero = document.getElementById("heroSlide");
+
+                function changeSlide() {
+                    hero.style.backgroundImage = `url('${images[index]}')`;
+                    index = (index + 1) % images.length;
+                }
+
+                changeSlide();
+                setInterval(changeSlide, 3000);
+            </script>
