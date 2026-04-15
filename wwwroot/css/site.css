@@ -2373,3 +2373,11 @@ body.fade-out {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.register-wrapper {
+    margin-top: 80px; /* Điều chỉnh con số này sao cho vừa với độ cao của Navbar của bạn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+}
