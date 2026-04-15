@@ -24,6 +24,17 @@
             </div>
 
             <div class="input-group">
+                <label class="input-label">Phone Number</label>
+                <input type="text"
+                       name="PhoneNumber"
+                       id="phoneNumber"
+                       placeholder="0912345678"
+                       required
+                       oninput="validatePhone(this)"
+                       maxlength="12">
+            </div>
+
+            <div class="input-group">
                 <label class="input-label">Password</label>
 
                 <input type="password"
@@ -135,4 +146,23 @@
             specialRule.style.color = "red";
         }
     }
+        function validatePhone(input) {
+        // 1. Chỉ giữ lại các chữ số, xóa bỏ mọi ký tự khác (chữ, dấu cách, ký tự đặc biệt)
+        let value = input.value.replace(/\D/g, '');
+
+        // 2. Nếu độ dài vượt quá 12, cắt bỏ phần thừa
+        if (value.length > 12) {
+            value = value.slice(0, 12);
+        }
+
+        // 3. Gán lại giá trị sạch vào ô input
+        input.value = value;
+    }
+
+    // Bổ sung: Chặn luôn việc nhấn phím không phải số (tăng trải nghiệm người dùng)
+    document.getElementById('phoneNumber').addEventListener('keypress', function(e) {
+        if (e.which < 48 || e.which > 57) {
+            e.preventDefault();
+        }
+    });
 </script>
