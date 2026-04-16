@@ -1716,13 +1716,17 @@ h1, h2, h3 {
 /* ===== REGISTER UI UPGRADE ===== */
 
 .register-wrapper {
-    min-height: 100vh;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #f5f7fa, #e4e7ec);
     font-family: 'Inter', sans-serif;
+    margin-top: 120px;
+    
+    min-height: calc(100vh - 80px);
 }
+
 
 .register-card {
     width: 400px;
