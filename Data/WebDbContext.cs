@@ -82,52 +82,59 @@ namespace FinalProject.Data
 
             // 2. Seed Products
             modelBuilder.Entity<Product>().HasData(
-                new Product
-                {
-                    ProductID = 1,
-                    ProductName = "Premium White Oxford Shirt",
-                    SeoTitle = "premium-white-oxford-shirt",
-                    Status = true,
-                    Image = "white-shirt.jpg",
-                    ListImages = "img1.jpg,img2.jpg",
-                    Price = 45000m,
-                    PromotionPrice = 39.99m,
-                    VAT = true,
-                    Quantity = 100,
-                    Hot = true,
-                    ProductDescription = "Classic fit white oxford shirt made from 100% cotton.",
-                    Detail = "<p>Breathable fabric, perfect for office and formal events.</p>",
-                    ViewCount = 0,
-                    MetaKeywords = "white shirt, oxford shirt, formal",
-                    MetaDescription = "Buy premium white oxford shirt at the best price.",
-                    CateID = 1,
-                    BrandID = 1,
-                    ShopID = 1,
-                    CreatedDate = new DateTime(2026, 3, 23)
-                },
-                new Product
-                {
-                    ProductID = 2,
-                    ProductName = "Floral Summer Maxi Dress",
-                    SeoTitle = "floral-summer-maxi-dress",
-                    Status = true,
-                    Image = "floral-dress.jpg",
-                    ListImages = "img3.jpg,img4.jpg",
-                    Price = 55000m,
-                    PromotionPrice = 49.00m,
-                    VAT = true,
-                    Quantity = 50,
-                    Hot = false,
-                    ProductDescription = "Elegant floral print dress for summer outings.",
-                    Detail = "<p>Soft chiffon material with adjustable waist strap.</p>",
-                    ViewCount = 0,
-                    MetaKeywords = "summer dress, floral dress, maxi dress",
-                    MetaDescription = "Beautiful floral dress for your summer vacation.",
-                    CateID = 2,
-                    BrandID = 1,
-                    ShopID = 1,
-                    CreatedDate = new DateTime(2026, 3, 23)
-                }
+                new Product { ProductID = 1, ProductName = "Premium White Oxford Shirt", SeoTitle = "premium-white-oxford-shirt", Status = true, Image = "white-shirt.jpg", ListImages = "img1.jpg,img2.jpg", Price = 450m, PromotionPrice = 399m, VAT = true, Quantity = 100, Hot = true, ProductDescription = "Classic fit white oxford shirt", Detail = "100% Cotton", ViewCount = 0, MetaKeywords = "shirt", MetaDescription = "shirt", CateID = 4, BrandID = 3, ShopID = 1, CreatedDate = new DateTime(2026, 3, 23) },
+                new Product { ProductID = 2, ProductName = "Floral Summer Maxi Dress", SeoTitle = "floral-summer-maxi-dress", Status = true, Image = "floral-dress.jpg", ListImages = "img3.jpg,img4.jpg", Price = 550m, PromotionPrice = 490m, VAT = true, Quantity = 50, Hot = false, ProductDescription = "Elegant floral print dress", Detail = "Chiffon material", ViewCount = 0, MetaKeywords = "dress", MetaDescription = "dress", CateID = 6, BrandID = 4, ShopID = 1, CreatedDate = new DateTime(2026, 3, 23) },
+                new Product { ProductID = 3, ProductName = "Slim Fit Navy Chinos", SeoTitle = "slim-fit-navy-chinos", Status = true, Image = "navy-chinos.jpg", ListImages = "img5.jpg", Price = 600m, PromotionPrice = 550m, VAT = true, Quantity = 80, Hot = true, ProductDescription = "High-quality khaki pants", Detail = "Stretchy fabric", ViewCount = 0, MetaKeywords = "chinos", MetaDescription = "pants", CateID = 5, BrandID = 2, ShopID = 1, CreatedDate = new DateTime(2026, 3, 25) },
+                new Product { ProductID = 4, ProductName = "Leather Crossbody Bag", SeoTitle = "leather-crossbody-bag", Status = true, Image = "leather-bag.jpg", ListImages = "img6.jpg", Price = 1200m, PromotionPrice = 990m, VAT = true, Quantity = 30, Hot = false, ProductDescription = "Genuine leather bag", Detail = "Handmade", ViewCount = 0, MetaKeywords = "bag", MetaDescription = "bag", CateID = 7, BrandID = 5, ShopID = 1, CreatedDate = new DateTime(2026, 3, 26) },
+                new Product { ProductID = 5, ProductName = "Classic Gold Watch", SeoTitle = "classic-gold-watch", Status = true, Image = "gold-watch.jpg", ListImages = "img7.jpg", Price = 3500m, PromotionPrice = 3200m, VAT = true, Quantity = 15, Hot = true, ProductDescription = "Elegant gold-plated watch", Detail = "Waterproof 50m", ViewCount = 0, MetaKeywords = "watch", MetaDescription = "watch", CateID = 9, BrandID = 1, ShopID = 1, CreatedDate = new DateTime(2026, 3, 27) },
+                new Product { ProductID = 6, ProductName = "Nike Air Max 270", SeoTitle = "nike-air-max-270", Status = true, Image = "nike-270.jpg", ListImages = "nike1.jpg,nike2.jpg", Price = 5000m, PromotionPrice = 4900m, VAT = true, Quantity = 40, Hot = true, ProductDescription = "Advanced cushioning for daily comfort.", Detail = "Breathable mesh upper", ViewCount = 0, MetaKeywords = "nike, shoes", MetaDescription = "nike air max", CateID = 8, BrandID = 1, ShopID = 1, CreatedDate = new DateTime(2026, 4, 1) },
+                new Product { ProductID = 7, ProductName = "Adidas Ultraboost 22", SeoTitle = "adidas-ultraboost-22", Status = true, Image = "adidas-ub.jpg", ListImages = "adi1.jpg,adi2.jpg", Price = 4200m, PromotionPrice = 3800m, VAT = true, Quantity = 35, Hot = true, ProductDescription = "Ultimate energy return for runners.", Detail = "Primeknit upper", ViewCount = 0, MetaKeywords = "adidas, running", MetaDescription = "adidas ultraboost", CateID = 8, BrandID = 2, ShopID = 1, CreatedDate = new DateTime(2026, 4, 1) },
+                new Product { ProductID = 8, ProductName = "Uniqlo Airism T-Shirt", SeoTitle = "uniqlo-airism-tshirt", Status = true, Image = "airism.jpg", ListImages = "uni1.jpg", Price = 350m, PromotionPrice = 299m, VAT = true, Quantity = 200, Hot = false, ProductDescription = "Smooth and quick-drying fabric.", Detail = "Airism technology", ViewCount = 0, MetaKeywords = "uniqlo, t-shirt", MetaDescription = "airism shirt", CateID = 4, BrandID = 3, ShopID = 1, CreatedDate = new DateTime(2026, 4, 2) },
+                new Product { ProductID = 9, ProductName = "Zara Slim Fit Suit", SeoTitle = "zara-slim-suit", Status = true, Image = "zara-suit.jpg", ListImages = "zara1.jpg", Price = 2500m, PromotionPrice = 2100m, VAT = true, Quantity = 20, Hot = true, ProductDescription = "Modern slim fit for formal events.", Detail = "Premium wool blend", ViewCount = 0, MetaKeywords = "zara, suit", MetaDescription = "slim fit suit", CateID = 4, BrandID = 4, ShopID = 1, CreatedDate = new DateTime(2026, 4, 2) },
+                new Product { ProductID = 10, ProductName = "H&M Denim Jacket", SeoTitle = "hm-denim-jacket", Status = true, Image = "hm-denim.jpg", ListImages = "hm1.jpg", Price = 900m, PromotionPrice = 750m, VAT = true, Quantity = 60, Hot = false, ProductDescription = "Classic denim jacket with a modern twist.", Detail = "100% Cotton denim", ViewCount = 0, MetaKeywords = "hm, denim", MetaDescription = "denim jacket", CateID = 4, BrandID = 5, ShopID = 1, CreatedDate = new DateTime(2026, 4, 3) },
+                new Product { ProductID = 11, ProductName = "Nike Tech Fleece", SeoTitle = "nike-tech-fleece", Status = true, Image = "tech-fleece.jpg", ListImages = "nike3.jpg", Price = 2200m, PromotionPrice = 1900m, VAT = true, Quantity = 45, Hot = true, ProductDescription = "Lightweight warmth for cold days.", Detail = "Tech fleece fabric", ViewCount = 0, MetaKeywords = "nike, fleece", MetaDescription = "nike tech fleece", CateID = 5, BrandID = 1, ShopID = 1, CreatedDate = new DateTime(2026, 4, 3) },
+                new Product { ProductID = 12, ProductName = "Adidas Originals Hoodie", SeoTitle = "adidas-hoodie", Status = true, Image = "adi-hoodie.jpg", ListImages = "adi3.jpg", Price = 1500m, PromotionPrice = 1200m, VAT = true, Quantity = 70, Hot = false, ProductDescription = "Iconic style with cozy comfort.", Detail = "French terry cotton", ViewCount = 0, MetaKeywords = "adidas, hoodie", MetaDescription = "adidas originals", CateID = 4, BrandID = 2, ShopID = 1, CreatedDate = new DateTime(2026, 4, 4) },
+                new Product { ProductID = 13, ProductName = "Uniqlo Selvedge Jeans", SeoTitle = "uniqlo-jeans", Status = true, Image = "un-jeans.jpg", ListImages = "uni2.jpg", Price = 1200m, PromotionPrice = 999m, VAT = true, Quantity = 90, Hot = true, ProductDescription = "Authentic selvedge denim.", Detail = "Slim straight cut", ViewCount = 0, MetaKeywords = "uniqlo, jeans", MetaDescription = "selvedge denim", CateID = 5, BrandID = 3, ShopID = 1, CreatedDate = new DateTime(2026, 4, 4) },
+                new Product { ProductID = 14, ProductName = "Zara Floral Skirt", SeoTitle = "zara-floral-skirt", Status = true, Image = "zara-skirt.jpg", ListImages = "zara2.jpg", Price = 800m, PromotionPrice = 650m, VAT = true, Quantity = 55, Hot = false, ProductDescription = "Beautiful floral pattern for spring.", Detail = "Lightweight fabric", ViewCount = 0, MetaKeywords = "zara, skirt", MetaDescription = "floral skirt", CateID = 6, BrandID = 4, ShopID = 1, CreatedDate = new DateTime(2026, 4, 5) },
+                new Product { ProductID = 15, ProductName = "H&M Oversized Sweatshirt", SeoTitle = "hm-sweatshirt", Status = true, Image = "hm-sweat.jpg", ListImages = "hm2.jpg", Price = 500m, PromotionPrice = 400m, VAT = true, Quantity = 120, Hot = false, ProductDescription = "Relaxed fit for everyday wear.", Detail = "Soft brushed inside", ViewCount = 0, MetaKeywords = "hm, sweatshirt", MetaDescription = "oversized top", CateID = 4, BrandID = 5, ShopID = 1, CreatedDate = new DateTime(2026, 4, 5) },
+                new Product { ProductID = 16, ProductName = "Nike Heritage Backpack", SeoTitle = "nike-backpack", Status = true, Image = "nike-bag.jpg", ListImages = "nike4.jpg", Price = 850m, PromotionPrice = 700m, VAT = true, Quantity = 40, Hot = false, ProductDescription = "Classic design with ample storage.", Detail = "Padded shoulder straps", ViewCount = 0, MetaKeywords = "nike, bag", MetaDescription = "nike backpack", CateID = 3, BrandID = 1, ShopID = 1, CreatedDate = new DateTime(2026, 4, 6) },
+                new Product { ProductID = 17, ProductName = "Adidas Stan Smith", SeoTitle = "adidas-stan-smith", Status = true, Image = "stan-smith.jpg", ListImages = "adi4.jpg", Price = 2300m, PromotionPrice = 1950m, VAT = true, Quantity = 50, Hot = true, ProductDescription = "Timeless tennis-inspired sneakers.", Detail = "Synthetic leather upper", ViewCount = 0, MetaKeywords = "adidas, sneakers", MetaDescription = "stan smith shoes", CateID = 8, BrandID = 2, ShopID = 1, CreatedDate = new DateTime(2026, 4, 6) },
+                new Product { ProductID = 18, ProductName = "Uniqlo Heattech Leggings", SeoTitle = "uniqlo-heattech", Status = true, Image = "heattech.jpg", ListImages = "uni3.jpg", Price = 450m, PromotionPrice = 350m, VAT = true, Quantity = 150, Hot = false, ProductDescription = "Thermal leggings for winter warmth.", Detail = "Heattech technology", ViewCount = 0, MetaKeywords = "uniqlo, leggings", MetaDescription = "thermal wear", CateID = 5, BrandID = 3, ShopID = 1, CreatedDate = new DateTime(2026, 4, 7) },
+                new Product { ProductID = 19, ProductName = "Zara Leather Belt", SeoTitle = "zara-belt", Status = true, Image = "zara-belt.jpg", ListImages = "zara3.jpg", Price = 600m, PromotionPrice = 450m, VAT = true, Quantity = 100, Hot = false, ProductDescription = "100% genuine leather belt.", Detail = "Metallic buckle", ViewCount = 0, MetaKeywords = "zara, belt", MetaDescription = "leather belt", CateID = 3, BrandID = 4, ShopID = 1, CreatedDate = new DateTime(2026, 4, 7) },
+                new Product { ProductID = 20, ProductName = "H&M Ribbed Tank Top", SeoTitle = "hm-tank-top", Status = true, Image = "hm-tank.jpg", ListImages = "hm3.jpg", Price = 250m, PromotionPrice = 180m, VAT = true, Quantity = 180, Hot = false, ProductDescription = "Simple and stylish ribbed top.", Detail = "Cotton and elastane", ViewCount = 0, MetaKeywords = "hm, top", MetaDescription = "tank top", CateID = 4, BrandID = 5, ShopID = 1, CreatedDate = new DateTime(2026, 4, 8) },
+                new Product { ProductID = 21, ProductName = "Nike Dri-FIT Shorts", SeoTitle = "nike-shorts", Status = true, Image = "nike-shorts.jpg", ListImages = "nike5.jpg", Price = 750m, PromotionPrice = 600m, VAT = true, Quantity = 85, Hot = true, ProductDescription = "Stay dry during your workout.", Detail = "Sweat-wicking fabric", ViewCount = 0, MetaKeywords = "nike, shorts", MetaDescription = "sport shorts", CateID = 5, BrandID = 1, ShopID = 1, CreatedDate = new DateTime(2026, 4, 8) },
+                new Product { ProductID = 22, ProductName = "Adidas Baseball Cap", SeoTitle = "adidas-cap", Status = true, Image = "adi-cap.jpg", ListImages = "adi5.jpg", Price = 450m, PromotionPrice = 350m, VAT = true, Quantity = 110, Hot = false, ProductDescription = "Classic 6-panel cap.", Detail = "Adjustable strap", ViewCount = 0, MetaKeywords = "adidas, cap", MetaDescription = "baseball cap", CateID = 3, BrandID = 2, ShopID = 1, CreatedDate = new DateTime(2026, 4, 9) },
+                new Product { ProductID = 23, ProductName = "Uniqlo Linen Shirt", SeoTitle = "uniqlo-linen-shirt", Status = true, Image = "un-linen.jpg", ListImages = "uni4.jpg", Price = 750m, PromotionPrice = 599m, VAT = true, Quantity = 65, Hot = true, ProductDescription = "Cool and breathable linen shirt.", Detail = "Linen cotton blend", ViewCount = 0, MetaKeywords = "uniqlo, shirt", MetaDescription = "linen shirt", CateID = 4, BrandID = 3, ShopID = 1, CreatedDate = new DateTime(2026, 4, 9) },
+                new Product { ProductID = 24, ProductName = "Zara Wide Leg Trousers", SeoTitle = "zara-trousers", Status = true, Image = "zara-pants.jpg", ListImages = "zara4.jpg", Price = 1300m, PromotionPrice = 1100m, VAT = true, Quantity = 45, Hot = true, ProductDescription = "High-waisted wide leg pants.", Detail = "Flowy material", ViewCount = 0, MetaKeywords = "zara, trousers", MetaDescription = "wide leg", CateID = 5, BrandID = 4, ShopID = 1, CreatedDate = new DateTime(2026, 4, 10) },
+                new Product { ProductID = 25, ProductName = "H&M Wool Blend Coat", SeoTitle = "hm-wool-coat", Status = true, Image = "hm-coat.jpg", ListImages = "hm4.jpg", Price = 2800m, PromotionPrice = 2400m, VAT = true, Quantity = 15, Hot = true, ProductDescription = "Stay warm and stylish in winter.", Detail = "Soft wool blend", ViewCount = 0, MetaKeywords = "hm, coat", MetaDescription = "winter coat", CateID = 4, BrandID = 5, ShopID = 1, CreatedDate = new DateTime(2026, 4, 10) }
+
+
+
+            );
+
+            // 5. Seed Orders (Dữ liệu doanh thu cho Dashboard)
+            modelBuilder.Entity<Order>().HasData(
+                new Order { OrderID = 1, CustomerID = 1, OrderDate = new DateTime(2026, 4, 10), TotalPrice = 1250000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 10) },
+                new Order { OrderID = 2, CustomerID = 1, OrderDate = new DateTime(2026, 4, 11), TotalPrice = 850000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 11) },
+                new Order { OrderID = 3, CustomerID = 1, OrderDate = new DateTime(2026, 4, 12), TotalPrice = 2100000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 12) },
+                new Order { OrderID = 4, CustomerID = 1, OrderDate = new DateTime(2026, 4, 13), TotalPrice = 1500000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 13) },
+                new Order { OrderID = 5, CustomerID = 1, OrderDate = new DateTime(2026, 4, 14), TotalPrice = 3200000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 14) },
+                new Order { OrderID = 6, CustomerID = 1, OrderDate = new DateTime(2026, 4, 15), TotalPrice = 950000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 15) },
+                new Order { OrderID = 7, CustomerID = 1, OrderDate = new DateTime(2026, 4, 16), TotalPrice = 1800000, OrderStatus = "Completed", PaymentStatus = "Paid", Delivered = true, DeliveryDate = new DateTime(2026, 4, 16) }
+            );
+
+            // 6. Seed OrderDetails (Dữ liệu cho Top Selling Products)
+            modelBuilder.Entity<OrderDetails>().HasData(
+                // Đơn 1 mua 2 áo Oxford
+                new OrderDetails { OrderDetailId = 1, OrderId = 1, ProductId = 1, Quantity = 2, Price = 450000 },
+                // Đơn 2 mua 1 váy Floral
+                new OrderDetails { OrderDetailId = 2, OrderId = 2, ProductId = 2, Quantity = 1, Price = 550000 },
+                // Các đơn khác mua dồn vào để tạo bảng xếp hạng
+                new OrderDetails { OrderDetailId = 3, OrderId = 3, ProductId = 1, Quantity = 5, Price = 450000 },
+                new OrderDetails { OrderDetailId = 4, OrderId = 4, ProductId = 2, Quantity = 3, Price = 550000 },
+                new OrderDetails { OrderDetailId = 5, OrderId = 5, ProductId = 1, Quantity = 10, Price = 450000 },
+                new OrderDetails { OrderDetailId = 6, OrderId = 6, ProductId = 2, Quantity = 2, Price = 550000 },
+                new OrderDetails { OrderDetailId = 7, OrderId = 7, ProductId = 1, Quantity = 4, Price = 450000 }
             );
 
             modelBuilder.Entity<CartItems>()
