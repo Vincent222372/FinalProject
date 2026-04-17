@@ -105,6 +105,8 @@ namespace FinalProject
                 options.Cookie.IsEssential = true;
 
                 options.Cookie.MaxAge = options.ExpireTimeSpan;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
             // Session
@@ -114,6 +116,8 @@ namespace FinalProject
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
             
 
