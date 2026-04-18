@@ -28,21 +28,6 @@ namespace FinalProject.Controllers
             return RedirectToAction("Users");
         }
 
-        public async Task<IActionResult> Sellers()
-        {
-            // Lọc theo RoleId (ví dụ 2 hoặc 3 tùy database của bạn) thay vì ID cá nhân
-            var sellers = await _userManager.GetUsersInRoleAsync("Seller");
-            return View(sellers.ToList());
-        }
-
-        public IActionResult ApproveSeller(int id)
-        {
-            var seller = _context.tb_Users.Find(id);
-            if (seller == null) return NotFound();
-            seller.IsActive = true;
-            seller.IsBanned = false;
-            _context.SaveChanges();
-            return RedirectToAction("Sellers");
-        }
+        
     }
 }
