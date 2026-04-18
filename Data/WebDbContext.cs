@@ -179,32 +179,6 @@ namespace FinalProject.Data
                       .OnDelete(DeleteBehavior.NoAction); // Tắt Cascade để tránh lỗi Multiple Cascade Paths
             });
 
-            modelBuilder.Entity<Shop>().HasData(
-                new Shop
-                {
-                    ShopId = 1,
-                    ShopName = "Urban Chic Fashion",
-                    LogoUrl = "logo-urban.png",
-                    CoverImageUrl = "cover-urban.jpg",
-                    ShopDescription = "Premium streetwear and modern fashion trends for the young generation.",
-                    ContactEmail = "support@urbanchic.com",
-                    ContactPhone = "+84987654321",
-                    ShopAddress = "123 ABC Street, District 1",
-                    City = "Ho Chi Minh City",
-                    Country = "Vietnam",
-                    TotalProducts = 50,
-                    TotalFollowers = 1200,
-                    RatingAverage = 4.80m,
-                    TotalReviews = 450,
-                    TotalSold = 2500,
-                    IsVerified = true,
-                    IsActive = true,
-                    IsBanned = false,
-                    CreatedAt = new DateTime(2026, 3, 27),
-                    RoleId = 2
-                }
-            );
-
             modelBuilder.Entity<User>(entity => entity.ToTable("tb_Users"));
             modelBuilder.Entity<IdentityRole<int>>(entity => entity.ToTable("tb_Roles"));
             modelBuilder.Entity<IdentityUserClaim<int>>(entity => entity.ToTable("tb_UserClaims"));
@@ -214,6 +188,7 @@ namespace FinalProject.Data
 
             // 3. Seed User Admin
             var adminUserId = 1;
+            var sellerUserId = 2;
             var hasher = new PasswordHasher<User>();
 
             var adminUser = new User
@@ -231,20 +206,58 @@ namespace FinalProject.Data
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             };
-
-            // Mật khẩu là: Admin@123
             adminUser.PasswordHash = hasher.HashPassword(adminUser, "Admin@123");
 
-            modelBuilder.Entity<User>().HasData(adminUser);
+            var sellerUser = new User
+            {
+                Id = sellerUserId,
+                UserName = "seller@urbanchic.com",
+                NormalizedUserName = "SELLER@URBANCHIC.COM",
+                Email = "seller@urbanchic.com",
+                NormalizedEmail = "SELLER@URBANCHIC.COM",
+                EmailConfirmed = true,
+                FullName = "Nguyen Thanh Dat",
+                IsActive = true,
+                IsBanned = false,
+                CreatedAt = new DateTime(2026, 3, 27),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            };
+            sellerUser.PasswordHash = hasher.HashPassword(sellerUser, "Seller@123");
 
-            // 4. Gán Role Admin (Id = 1) cho User Admin (Id = 1) thông qua bảng trung gian
+            modelBuilder.Entity<User>().HasData(adminUser, sellerUser);
+
+
             modelBuilder.Entity<IdentityUserRole<int>>().HasData(
-                new IdentityUserRole<int>
-                {
-                    RoleId = 1, // Khớp với Id của Role Admin bạn đã seed ở trên
-                    UserId = adminUserId
-                }
+                new IdentityUserRole<int> { RoleId = 1, UserId = adminUserId }, // Admin gán Role Admin
+                new IdentityUserRole<int> { RoleId = 3, UserId = sellerUserId } // Seller gán Role Shop
             );
+
+            modelBuilder.Entity<Shop>().HasData(
+                new Shop
+                {
+                    ShopId = 1,
+                    ShopName = "Urban Chic Fashion",
+                    OwnerId = sellerUserId, // <--- Đổi từ 1 sang 2
+                    LogoUrl = "logo-urban.png",
+                    CoverImageUrl = "cover-urban.jpg",
+                    ShopDescription = "Premium streetwear and modern fashion trends for the young generation.",
+                    ContactEmail = "support@urbanchic.com",
+                    ContactPhone = "+84987654321",
+                    ShopAddress = "123 ABC Street, District 1",
+                    City = "Ho Chi Minh City",
+                    Country = "Vietnam",
+                    TotalProducts = 50,
+                    TotalFollowers = 1200,
+                    RatingAverage = 4.80m,
+                    TotalReviews = 450,
+                    TotalSold = 2500,
+                    IsVerified = true,
+                    IsActive = true,
+                    IsBanned = false,
+                    CreatedAt = new DateTime(2026, 3, 27)
+                }
+            );    
         }
     }
 

@@ -1,38 +1,102 @@
+﻿@model List<FinalProject.Models.User>
+
 @{
     Layout = "_LayoutAdmin";
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Seller Management";
 }
 
-@model List<FinalProject.Models.User>
+<h2 class="admin-title">👥 Seller Management</h2>
 
+<div class="table-responsive">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Account Info</th>
+                <th>Shop Status</th>
+                <th>Registration Date</th>
+                <th>Account Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            @if (!string.IsNullOrEmpty(user.AvatarUrl))
+                            {
+                                <img src="@user.AvatarUrl" alt="Avatar" style="width: 35px; height: 35px; border-radius: 50%;" />
+                            }
+                            <div>
+                                <div style="font-weight: bold;">@user.FullName</div>
+                                <div style="font-size: 11px; color: #666;">@user.Email</div>
+                            </div>
+                        </div>
+                    </td>
 
-<h2 class="admin-title">Sellers</h2>
+                    <td>
+                        @if (user.MyShop != null)
+                        {
+                            <div style="font-size: 13px;">
+                                <span style="color: #b07d4f; font-weight: bold;">@user.MyShop.ShopName</span>
+                                @if (user.MyShop.IsVerified)
+                                {
+                                    <span title="Verified Shop" style="color: #1d9bf0; cursor: help;">✔</span>
+                                }
+                                <div style="font-size: 11px; color: #888;">@user.MyShop.City, @user.MyShop.Country</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <i style="color: #ccc; font-size: 12px;">No shop profile created</i>
+                        }
+                    </td>
 
-<table class="admin-table">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Action</th>
-    </tr>
+                    <td style="font-size: 12px;">
+                        @user.CreatedAt.ToString("dd/MM/yyyy")
+                    </td>
 
-    @foreach (var s in Model)
-    {
-        <tr>
-            <td>@s.Id</td>
-            <td>@s.FullName</td>
-            <td>@s.Email</td>
+                    <td>
+                        @if (user.IsBanned)
+                        {
+                            <span class="badge bg-danger">Banned</span>
+                        }
+                        else if (!user.IsActive)
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                    </td>
 
-            <td>
-                <a href="/Admin/ApproveSeller/@s.Id" class="admin-btn">
-                    Approve
-                </a>
+                    <td>
+                        <div style="display: flex; gap: 5px;">
+                            @if (user.MyShop != null && !user.MyShop.IsVerified)
+                            {
+                                <form asp-action="ApproveSeller" asp-route-id="@user.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="admin-btn" style="background-color: #28a745;">Verify Shop</button>
+                                </form>
+                            }
 
-                <a href="/Admin/BanSeller/@s.Id" class="admin-btn">
-                    Ban
-                </a>
-            </td>
-
-        </tr>
-    }
-</table>
+                            @if (!user.IsBanned)
+                            {
+                                <form asp-action="BanSeller" asp-route-id="@user.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="admin-btn" style="background-color: #dc3545;" onclick="return confirm('Ban this user and their shop?')">Ban</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="UnbanSeller" asp-route-id="@user.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="admin-btn" style="background-color: #6c757d;">Unban</button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
