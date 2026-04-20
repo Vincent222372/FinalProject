@@ -3,9 +3,9 @@ using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.Models.Momo;
 using FinalProject.Services.Momo;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.X9;
-
+using Microsoft.EntityFrameworkCore;
 public class CheckoutController : Controller
 {
     private readonly IMomoService _momoService;
@@ -41,6 +41,8 @@ public class CheckoutController : Controller
                 finalTotal = originalTotal * (100 - discountPercent) / 100;
             }
         }
+
+        var cart = HttpContext.Session.Get<List<CartItems>>("Cart");
         // 1. Tạo đơn hàng
         var order = new Order
         {
@@ -50,7 +52,14 @@ public class CheckoutController : Controller
             OrderDate = DateTime.Now,
             TotalPrice = finalTotal, // Store the final price!
             ShippingAddress = "Fixed Address for test", // You have FullName/Address in VM
-            ReceiverPhone = "0123456789"
+            ReceiverPhone = "0123456789",
+            OrderDetails = cart.Select(item => new OrderDetails
+            {
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                Price = item.Price,
+                Size = item.Size
+            }).ToList()
         };
 
         _context.tb_Order.Add(order);
@@ -70,20 +79,24 @@ public class CheckoutController : Controller
         var momoModel = new OrderInfoModel
         {
             FullName = "Nguyen Thanh Dat",
-            Amount = 55000,
+            Amount = (double)finalTotal,
 
             // 🔥 FIX Ở ĐÂY
-            OrderInfo = "Thanh toan don hang " + order.OrderId + (discountPercent > 0 ? $" (Discount {discountPercent}%)" : "")
+            OrderInfo = "Order Payment " + order.OrderId + (discountPercent > 0 ? $" (Discount {discountPercent}%)" : "")
         };
         var response = await _momoService.CreatePaymentMomo(momoModel);
 
-        // 🔥 CHECK LỖI MOMO
-        if (response == null || string.IsNullOrEmpty(response.PayUrl))
+        if (response != null && !string.IsNullOrEmpty(response.PayUrl))
         {
-            return Content("MoMo chưa tạo được QR - lỗi format request");
+            // Đây là lệnh quan trọng để mở trang quét mã QR MoMo
+            return Redirect(response.PayUrl);
         }
 
-        return Redirect(response.PayUrl);
+        // 👉 in ra để xem lỗi thật
+        return Content(
+            "Message: " + response.Message +
+            "\nPayUrl: " + response.PayUrl
+        );
     }
 
     // 👉 MOMO TRẢ VỀ
@@ -94,29 +107,38 @@ public class CheckoutController : Controller
             var query = HttpContext.Request.Query;
 
             var orderInfo = query["orderInfo"].ToString();
-            var errorCode = query["errorCode"].ToString();
+            var resultCode = query["resultCode"].ToString();
 
+            var orderIdFromMomo = query["orderId"].ToString();
             // 🔥 FIX: không parse bừa nữa
-            var order = _context.tb_Order
-                .OrderByDescending(o => o.OrderId)
-                .FirstOrDefault();
-
-            if (order != null)
+            if (int.TryParse(orderIdFromMomo, out int orderId))
             {
-                if (errorCode == "0")
-                {
-                    order.OrderStatus = "Completed";
-                    order.PaymentStatus = "Paid";
-                }
-                else
-                {
-                    order.OrderStatus = "Cancelled";
-                }
+                var order = _context.tb_Order
+                    .Include(o => o.OrderDetails) // OrderDetails
+                    .ThenInclude(d => d.Product)
+                    .FirstOrDefault(o => o.OrderId == orderId);
 
-                await _context.SaveChangesAsync();
+                if (order != null)
+                {
+                    if (resultCode == "0")
+                    {
+                        order.OrderStatus = "Completed";
+                        order.PaymentStatus = "Paid";
+                        ViewBag.Message = "Transaction Successful";
+                    }
+                    else
+                    {
+                        order.OrderStatus = "Cancelled";
+                        order.PaymentStatus = "Failed";
+                        ViewBag.Message = "Transaction Failed";
+                    }
+
+                    await _context.SaveChangesAsync();
+                    return View("~/Views/Cart/Invoice.cshtml", order);
+                }
             }
 
-            return View("PaymentSuccess");
+            return View("~/Views/Cart/Invoice.cshtml");
         }
         catch (Exception ex)
         {
@@ -125,7 +147,10 @@ public class CheckoutController : Controller
     }
     public IActionResult Result(int id)
     {
-        var order = _context.tb_Order.FirstOrDefault(o => o.OrderId == id);
-        return View("PaymentSuccess", order);
+        var order = _context.tb_Order
+            .Include(o => o.OrderDetails)
+            .ThenInclude(d => d.Product)
+            .FirstOrDefault(o => o.OrderId == id);
+        return View("~/Views/Cart/Invoice.cshtml", order);
     }
 }

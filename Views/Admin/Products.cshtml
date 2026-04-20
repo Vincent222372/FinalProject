@@ -94,10 +94,16 @@
                 </td>
                 <td>
                     <div class="btn-group-vertical" style="gap: 5px;">
-                        <button class="admin-btn" onclick="openProductModal(@p.ProductId)" style="background-color: #5bc0de; border: none; font-size: 12px; color: white; padding: 5px;">View</button>
+                        <a href="/Admin/EditProduct/@p.ProductId" class="admin-btn"
+                           style="background-color: #5bc0de; text-align: center; border: none; font-size: 12px; color: white; padding: 5px; text-decoration: none;">
+                            Edit
+                        </a>
+
                         <a href="/Admin/DeleteProduct/@p.ProductId" class="admin-btn"
-                           style="background-color: #d9534f; text-align: center; border: none; font-size: 12px; color: white; padding: 5px;"
-                           onclick="return confirm('Delete this product?')">Delete</a>
+                           style="background-color: #d9534f; text-align: center; border: none; font-size: 12px; color: white; padding: 5px; text-decoration: none;"
+                           onclick="return confirm('Delete this product?')">
+                            Delete
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -120,10 +126,9 @@
 @section Scripts {
     <script>
         function openProductModal(id) {
-            // Hiển thị khung Modal trước
+
             document.getElementById('productModal').style.display = 'block';
 
-            // Gọi AJAX lấy dữ liệu Partial View
             fetch('/Admin/ProductDetail/' + id)
                 .then(res => {
                     if (!res.ok) throw new Error('Product not found');

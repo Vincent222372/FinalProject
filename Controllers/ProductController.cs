@@ -107,6 +107,8 @@ public class ProductController : Controller
             .Include(p => p.Category)
             .Include(p => p.Brand)
             .Include(p => p.Shop)
+            .Include(p => p.ProductReviews)
+                .ThenInclude(r => r.User)
             .FirstOrDefault(p => p.ProductId == id);
 
         if (product == null)

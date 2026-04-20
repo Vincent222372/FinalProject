@@ -31,6 +31,10 @@ namespace FinalProject.Models
 
         public bool VAT { get; set; }
 
+        [Range(0, 5)]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? Star { get; set; } = 0;
+
         public int Quantity { get; set; } = 0;
 
         public bool Hot { get; set; }
@@ -79,5 +83,6 @@ namespace FinalProject.Models
 
         public int? PromotionId { get; set; }
         public Promotion Promotion { get; set; }
+        public virtual ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>();
     }
 }

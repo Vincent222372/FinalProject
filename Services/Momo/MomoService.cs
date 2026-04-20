@@ -27,16 +27,16 @@ namespace FinalProject.Services.Momo
             var orderInfo = "Thanh_toan"; // 🔥 không dấu, không space
 
             var rawData =
-                $"accessKey={_options.Value.AccessKey}" +
-                $"&amount={model.Amount}" +
-                $"&extraData={extraData}" +
-                $"&ipnUrl={_options.Value.NotifyUrl}" +
-                $"&orderId={orderId}" +
-                $"&orderInfo={orderInfo}" +
-                $"&partnerCode={_options.Value.PartnerCode}" +
-                $"&redirectUrl={_options.Value.ReturnUrl}" +
-                $"&requestId={requestId}" +
-                $"&requestType={_options.Value.RequestType}";
+             $"accessKey={_options.Value.AccessKey}" +
+             $"&amount={model.Amount}" +
+             $"&extraData=" +
+             $"&ipnUrl={_options.Value.NotifyUrl}" +
+             $"&orderId={model.OrderId}" +
+             $"&orderInfo={model.OrderInfo}" +
+             $"&partnerCode={_options.Value.PartnerCode}" +
+             $"&redirectUrl={_options.Value.ReturnUrl}" +
+             $"&requestId={model.OrderId}" +
+             $"&requestType={_options.Value.RequestType}";
 
             var signature = ComputeHmacSha256(rawData, _options.Value.SecretKey);
 
@@ -45,6 +45,9 @@ namespace FinalProject.Services.Momo
 
             request.AddHeader("Content-Type", "application/json");
 
+            request.AddHeader("ngrok-skip-browser-warning", "true");
+
+            // Create an object representing the request data
             var requestData = new
             {
                 partnerCode = _options.Value.PartnerCode,
