@@ -51,7 +51,7 @@ namespace FinalProject.Models
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        public ICollection<OrderDetails> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
         
     }
 }

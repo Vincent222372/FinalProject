@@ -1,73 +1,101 @@
-﻿@model FinalProject.Models.Product
+﻿<hr style="margin-top:40px;" />
 
-<h2>🛍 Product Detail</h2>
+<div class="review-section" style="margin-top:30px;">
+    <h3>💬 Customer Reviews</h3>
 
-<div style="display:flex;gap:30px;margin-top:20px;">
+    <div style="background:#f9f9f9; padding:20px; border-radius:10px; margin-bottom:30px;">
+        <h4>Leave a review</h4>
 
-    <!-- IMAGE -->
-    <div>
-        <img src="@(Model.Image ?? "/assets/product-1.jpg")"
-             style="width:300px;height:300px;object-fit:cover;border:1px solid #ccc;" />
+        <div style="margin-bottom:15px;">
+            <label>Rating:</label>
+            <div class="star-rating" style="font-size: 25px; color: #ccc; cursor: pointer; display: flex; gap: 5px;">
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+            </div>
+            <input type="hidden" id="ratingValue" value="5" />
+        </div>
+
+        <div style="margin-bottom:15px;">
+            <textarea id="commentText" placeholder="Share your experience..."
+                      style="width:100%; height:80px; padding:10px; border-radius:5px; border:1px solid #ddd;"></textarea>
+        </div>
+
+        <button type="button" onclick="submitReview(@Model.ProductId)"
+                style="background:#c7a17a; color:#fff; padding:10px 25px; border:none; border-radius:5px; cursor:pointer;">
+            Submit Review
+        </button>
     </div>
 
-    <!-- INFO -->
-    <div>
-        <h2>@Model.ProductName</h2>
+    <div id="reviewList">
+        @{
+            // Ép kiểu tường minh để tránh lỗi dynamic lambda
+            var reviewList = Model.ProductReviews as IEnumerable<FinalProject.Models.ProductReview>;
+        }
 
-        <p style="color:red;font-size:20px;font-weight:bold;">
-            @Model.Price VNĐ
-        </p>
-
-        <p>
-            <b>Category:</b> @Model.Category?.CateName
-        </p>
-
-        <p>
-            <b>Brand:</b> @Model.Brand?.BrandName
-        </p>
-
-        <p>
-            <b>Shop:</b> @Model.Shop?.ShopName
-        </p>
-
-        <p>
-            <b>Description:</b>
-            <br />
-            @* Removed @Model.Description because 'Description' does not exist on 'Product'. 
-               Please add a 'Description' property to the Product model if needed. *@
-        </p>
-
-        <br />
-
-        <!-- ACTION -->
-        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display: flex; gap: 10px; align-items: center;">
-            <input type="hidden" name="productId" value="@Model.ProductId" />
-
-            <div style="display: flex; flex-direction: column; gap: 5px;">
-                <label style="font-size: 12px; color: #666;">Qty:</label>
-                <input type="number" name="quantity" value="1" min="1"
-                       style="width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" />
-            </div>
-
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button type="submit" name="actionType" value="add"
-                        style="background: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                    🛒 Add to Cart
-                </button>
-
-                <button type="submit" name="actionType" value="buyNow"
-                        style="background: #ff4757; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                    ⚡ Buy Now
-                </button>
-            </div>
-        </form>
-
-        <br />
-        <a href="/Product" style="color: #666; text-decoration: none;"></a>
-
-        <br /><br />
-
-        <a href="/Product">⬅ Back to List</a>
+        @if (reviewList != null && reviewList.Any())
+        {
+            foreach (var rev in reviewList.OrderByDescending(x => x.CreatedAt))
+            {
+                <div style="border-bottom:1px solid #eee; padding:15px 0;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <b>@rev.User?.UserName</b>
+                        <small style="color:#999;">@rev.CreatedAt.ToString("dd/MM/yyyy")</small>
+                    </div>
+                    <div style="color:#ffcc00;">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span>@(i <= rev.Rating ? "★" : "☆")</span>
+                        }
+                    </div>
+                    <p style="margin-top:5px; color:#555;">@rev.Comment</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p style="color:#999; font-style:italic;">No reviews yet. Be the first to review!</p>
+        }
     </div>
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Xử lý chọn sao bằng UI
+    $('.star').click(function () {
+        var val = $(this).data('value');
+        $('#ratingValue').val(val);
+        $('.star').css('color', '#ccc');
+        $('.star').each(function () {
+            if ($(this).data('value') <= val) {
+                $(this).css('color', '#ffcc00');
+            }
+        });
+    });
+
+    // Mặc định cho 5 sao màu vàng khi load trang
+    $('.star').each(function () {
+        if ($(this).data('value') <= 5) $(this).css('color', '#ffcc00');
+    });
+
+    function submitReview(pId) {
+        var r = $('#ratingValue').val();
+        var c = $('#commentText').val();
+
+        if (!c) {
+            alert("Please enter a comment!");
+            return;
+        }
+
+        $.post('/Account/PostReview', { productId: pId, rating: r, comment: c }, function (res) {
+            if (res.success) {
+                alert(res.message);
+                location.reload(); // Load lại để hiện review mới và số sao mới
+            } else {
+                alert(res.message);
+            }
+        });
+    }
+</script>

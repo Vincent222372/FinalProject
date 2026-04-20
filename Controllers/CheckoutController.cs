@@ -3,8 +3,9 @@ using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.Models.Momo;
 using FinalProject.Services.Momo;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 public class CheckoutController : Controller
 {
     private readonly IMomoService _momoService;
@@ -40,6 +41,8 @@ public class CheckoutController : Controller
                 finalTotal = originalTotal * (100 - discountPercent) / 100;
             }
         }
+
+        var cart = HttpContext.Session.Get<List<CartItems>>("Cart");
         // 1. Tạo đơn hàng
         var order = new Order
         {
@@ -49,7 +52,14 @@ public class CheckoutController : Controller
             OrderDate = DateTime.Now,
             TotalPrice = finalTotal, // Store the final price!
             ShippingAddress = "Fixed Address for test", // You have FullName/Address in VM
-            ReceiverPhone = "0123456789"
+            ReceiverPhone = "0123456789",
+            OrderDetails = cart.Select(item => new OrderDetails
+            {
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                Price = item.Price,
+                Size = item.Size
+            }).ToList()
         };
 
         _context.tb_Order.Add(order);
@@ -103,7 +113,10 @@ public class CheckoutController : Controller
             // 🔥 FIX: không parse bừa nữa
             if (int.TryParse(orderIdFromMomo, out int orderId))
             {
-                var order = _context.tb_Order.FirstOrDefault(o => o.OrderId == orderId);
+                var order = _context.tb_Order
+                    .Include(o => o.OrderDetails) // OrderDetails
+                    .ThenInclude(d => d.Product)
+                    .FirstOrDefault(o => o.OrderId == orderId);
 
                 if (order != null)
                 {
@@ -121,11 +134,11 @@ public class CheckoutController : Controller
                     }
 
                     await _context.SaveChangesAsync();
-                    return View("PaymentSuccess", order);
+                    return View("~/Views/Cart/Invoice.cshtml", order);
                 }
             }
 
-            return View("PaymentSuccess");
+            return View("~/Views/Cart/Invoice.cshtml");
         }
         catch (Exception ex)
         {
@@ -134,7 +147,10 @@ public class CheckoutController : Controller
     }
     public IActionResult Result(int id)
     {
-        var order = _context.tb_Order.FirstOrDefault(o => o.OrderId == id);
-        return View("PaymentSuccess", order);
+        var order = _context.tb_Order
+            .Include(o => o.OrderDetails)
+            .ThenInclude(d => d.Product)
+            .FirstOrDefault(o => o.OrderId == id);
+        return View("~/Views/Cart/Invoice.cshtml", order);
     }
 }

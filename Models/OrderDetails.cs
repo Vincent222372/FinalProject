@@ -24,12 +24,12 @@ namespace FinalProject.Models
 
         // Navigation
         [ForeignKey("OrderId")]
-        public Order? Order { get; set; }
+        public virtual Order? Order { get; set; }
 
         [ForeignKey("ProductId")]
-        public Product? Product { get; set; } = null!;
+        public virtual Product? Product { get; set; } = null!;
 
         [ForeignKey("ShopId")]
-        public Shop? Shop { get; set; } = null!;
+        public virtual Shop? Shop { get; set; } = null!;
     }
 }
