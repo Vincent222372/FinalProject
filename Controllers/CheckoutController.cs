@@ -69,12 +69,18 @@ public class CheckoutController : Controller
         var momoModel = new OrderInfoModel
         {
             FullName = "Nguyen Thanh Dat",
-            Amount = 55000,
+            Amount = (double)finalTotal,
 
             // 🔥 FIX Ở ĐÂY
-            OrderInfo = "Thanh toan don hang " + order.OrderId + (discountPercent > 0 ? $" (Discount {discountPercent}%)" : "")
+            OrderInfo = "Order Payment " + order.OrderId + (discountPercent > 0 ? $" (Discount {discountPercent}%)" : "")
         };
         var response = await _momoService.CreatePaymentMomo(momoModel);
+
+        if (response != null && !string.IsNullOrEmpty(response.PayUrl))
+        {
+            // Đây là lệnh quan trọng để mở trang quét mã QR MoMo
+            return Redirect(response.PayUrl);
+        }
 
         // 👉 in ra để xem lỗi thật
         return Content(
@@ -91,26 +97,32 @@ public class CheckoutController : Controller
             var query = HttpContext.Request.Query;
 
             var orderInfo = query["orderInfo"].ToString();
-            var errorCode = query["errorCode"].ToString();
+            var resultCode = query["resultCode"].ToString();
 
+            var orderIdFromMomo = query["orderId"].ToString();
             // 🔥 FIX: không parse bừa nữa
-            var order = _context.tb_Order
-                .OrderByDescending(o => o.OrderId)
-                .FirstOrDefault();
-
-            if (order != null)
+            if (int.TryParse(orderIdFromMomo, out int orderId))
             {
-                if (errorCode == "0")
-                {
-                    order.OrderStatus = "Completed";
-                    order.PaymentStatus = "Paid";
-                }
-                else
-                {
-                    order.OrderStatus = "Cancelled";
-                }
+                var order = _context.tb_Order.FirstOrDefault(o => o.OrderId == orderId);
 
-                await _context.SaveChangesAsync();
+                if (order != null)
+                {
+                    if (resultCode == "0")
+                    {
+                        order.OrderStatus = "Completed";
+                        order.PaymentStatus = "Paid";
+                        ViewBag.Message = "Transaction Successful";
+                    }
+                    else
+                    {
+                        order.OrderStatus = "Cancelled";
+                        order.PaymentStatus = "Failed";
+                        ViewBag.Message = "Transaction Failed";
+                    }
+
+                    await _context.SaveChangesAsync();
+                    return View("PaymentSuccess", order);
+                }
             }
 
             return View("PaymentSuccess");

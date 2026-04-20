@@ -23,22 +23,24 @@ namespace FinalProject.Services.Momo
             model.OrderId = DateTime.UtcNow.Ticks.ToString();
             model.OrderInfo = "Thanh toán đơn hàng";
             var rawData =
-     $"accessKey={_options.Value.AccessKey}" +
-     $"&amount={model.Amount}" +
-     $"&extraData=" +
-     $"&ipnUrl={_options.Value.NotifyUrl}" +
-     $"&orderId={model.OrderId}" +
-     $"&orderInfo={model.OrderInfo}" +
-     $"&partnerCode={_options.Value.PartnerCode}" +
-     $"&redirectUrl={_options.Value.ReturnUrl}" +
-     $"&requestId={model.OrderId}" +
-     $"&requestType={_options.Value.RequestType}";
+             $"accessKey={_options.Value.AccessKey}" +
+             $"&amount={model.Amount}" +
+             $"&extraData=" +
+             $"&ipnUrl={_options.Value.NotifyUrl}" +
+             $"&orderId={model.OrderId}" +
+             $"&orderInfo={model.OrderInfo}" +
+             $"&partnerCode={_options.Value.PartnerCode}" +
+             $"&redirectUrl={_options.Value.ReturnUrl}" +
+             $"&requestId={model.OrderId}" +
+             $"&requestType={_options.Value.RequestType}";
 
             var signature = ComputeHmacSha256(rawData, _options.Value.SecretKey);
 
             var client = new RestClient(_options.Value.MomoApiUrl);
             var request = new RestRequest() { Method = Method.Post };
             request.AddHeader("Content-Type", "application/json; charset=UTF-8");
+
+            request.AddHeader("ngrok-skip-browser-warning", "true");
 
             // Create an object representing the request data
             var requestData = new
