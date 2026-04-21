@@ -45,6 +45,13 @@
                 </div>
                 <div class="nav-center"></div>
                 <div class="nav-right d-flex align-items-center">
+                    @* --- ĐOẠN KHÔI PHỤC NÚT DASHBOARD --- *@
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-sm btn-outline-danger me-3" asp-controller="Admin" asp-action="Index">Dashboard</a>
+                    }
+                    @* ------------------------------------ *@
+
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
