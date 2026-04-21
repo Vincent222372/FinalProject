@@ -50,7 +50,6 @@
                 <h5 class="filter-title">Price Range</h5>
                 <div class="price-filter">
                     @{
-                        // Đảm bảo maxPrice không bao giờ bằng 0 khi load trang
                         var displayMax = ViewBag.MaxPrice > 0 ? ViewBag.MaxPrice : 10000000;
                     }
                     <label>From: <b id="minVal">@ViewBag.MinPrice</b></label>
@@ -68,19 +67,9 @@
         <!-- ===== MAIN ===== -->
         <div class="shop-main">
 
-            @* <form method="get" asp-action="Index" class="shop-search" style="display: flex; gap: 10px; width: 100%;">
-                <input type="hidden" name="searchType" value="all" />
-
-                <input type="text" name="keyword" value="@ViewBag.Keyword"
-                       class="shop-input" placeholder="Search products, categories, keywords..."
-                       style="flex-grow: 1; min-width: 0;" />
-
-                <button type="submit" class="shop-btn">Search</button>
-            </form> *@
-
             <hr />
 
-            <!-- ✅ CATEGORY CHA ONLY -->
+            <!-- CATEGORY -->
             <div class="shop-category">
 
                 <a href="/Product"
@@ -90,7 +79,7 @@
 
                 @foreach (var c in ViewBag.Categories)
                 {
-                    if (c.ParentId == null) // 👉 chỉ lấy cha
+                    if (c.ParentId == null)
                     {
                         <a href="/Product?cateId=@c.CateId"
                                class="@(selectedCategory == c.CateId ? "shop-cate active" : "shop-cate")">
@@ -98,7 +87,6 @@
                         </a>
                     }
                 }
-
             </div>
 
             <hr />
@@ -109,34 +97,39 @@
                 {
                     <div class="shop-card">
 
-                            <a href="/Product/Details/@item.ProductId" class="shop-link">
+                        <a href="/Product/Details/@item.ProductId" class="shop-link">
 
-                                <img src="@(string.IsNullOrEmpty(item.Image)
-                                                                                                         ? Url.Content("~/assets/product-1.jpg")
-                                                                                                         : Url.Content("~/assets/" + item.Image))" />
+                            <!-- ✅ FIX IMAGE -->
+                            <img src="@(string.IsNullOrEmpty(item.Image)
+                                                               ? Url.Content("~/assets/product-1.jpg")
+                                                               : (item.Image.StartsWith("uploads")
+                                                                   ? Url.Content("~/" + item.Image)
+                                                                   : Url.Content("~/assets/" + item.Image)))" />
 
-                        <h4>@item.ProductName</h4>
-                        <p>@item.Price.ToString("N0") VNĐ</p>
+                            <h4>@item.ProductName</h4>
+                            <p>@item.Price.ToString("N0") VNĐ</p>
+                        </a>
 
                         <div class="shop-actions-group">
 
-                                <form asp-controller="Cart" asp-action="AddToCart" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="productId" value="@item.ProductId" />
-                                    <input type="hidden" name="actionType" value="buyNow" />
-                                  
-  
+                            <!-- BUY NOW -->
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <input type="hidden" name="actionType" value="buyNow" />
 
-                                    <button type="submit" class="shop-buy-btn">⚡ Buy Now</button>
-                                </form>
+                                <button type="submit" class="shop-buy-btn">⚡ Buy Now</button>
+                            </form>
 
-                                <form onsubmit="addToCart(event, @item.ProductId, '@(string.IsNullOrEmpty(item.Image) ? Url.Content("~/assets/product-1.jpg") : Url.Content("~/assets/" + item.Image))', this)">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="productId" value="@item.ProductId" />
-                                    <button type="submit" class="shop-cart-btn">
-                                        🛒 Add to Cart
-                                    </button>
-                                </form>
+                            <!-- ADD TO CART -->
+                            <form onsubmit="addToCart(event, @item.ProductId, '@(string.IsNullOrEmpty(item.Image) ? Url.Content("~/assets/product-1.jpg") : Url.Content("~/" + item.Image))', this)">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+
+                                <button type="submit" class="shop-cart-btn">
+                                    🛒 Add to Cart
+                                </button>
+                            </form>
 
                         </div>
                     </div>
@@ -146,90 +139,33 @@
     </div>
 </div>
 
-<!-- MODAL SIZE -->
-<div id="sizeModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;">
-    <div style="background:white;padding:20px;width:300px;margin:10% auto;border-radius:10px;text-align:center;">
-        <h4>Chọn Size</h4>
-
-        <select id="sizeSelect">
-            <option value="S">S</option>
-            <option value="M" selected>M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-        </select>
-
-        <br><br>
-
-        <button onclick="confirmSize()">OK</button>
-        <button onclick="closeSize()">Cancel</button>
-    </div>
-</div>
-
 <script>
-    let currentForm = null;
-    let currentType = ""; // cart hoặc buy
 
-    document.querySelectorAll(".shop-buy-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-            currentForm = this.closest("form");
-            currentType = "buy";
-            document.getElementById("sizeModal").style.display = "block";
+    function addToCart(event, productId, imgSrc, form) {
+        event.preventDefault();
+
+        let token = form.querySelector("input[name='__RequestVerificationToken']").value;
+
+        fetch('/Cart/AddToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: 'productId=' + productId +
+                  '&quantity=1' +
+                  '&__RequestVerificationToken=' + token
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            if (data.redirect) {
+                window.location.href = data.redirect;
+                return;
+            }
+
+            animateCart(data.count, imgSrc, form);
         });
-    });
-
-    document.querySelectorAll(".shop-cart-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-            currentForm = this.closest("form");
-            currentType = "cart";
-            document.getElementById("sizeModal").style.display = "block";
-        });
-    });
-
-    function confirmSize() {
-        let size = document.getElementById("sizeSelect").value;
-
-        if (currentType === "buy") {
-            let input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "size";
-            input.value = size;
-            currentForm.appendChild(input);
-            currentForm.submit();
-        }
-
-        if (currentType === "cart") {
-            let form = currentForm;
-            let productId = form.querySelector("input[name='productId']").value;
-            let token = form.querySelector("input[name='__RequestVerificationToken']").value;
-
-            fetch('/Cart/AddToCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: 'productId=' + productId +
-                      '&quantity=1' +
-                      '&size=' + size +
-                      '&__RequestVerificationToken=' + token
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                    return;
-                }
-
-                animateCart(data.count, '/assets/product-1.jpg', form);
-            });
-        }
-
-        closeSize();
-    }
-
-    function closeSize() {
-        document.getElementById("sizeModal").style.display = "none";
     }
 
     function animateCart(count, imgSrc, startElement) {
@@ -263,11 +199,4 @@
         setTimeout(() => img.remove(), 800);
     }
 
-    $(document).ready(function() {
-        $('.select2-dropdown').select2({
-            placeholder: "Search or Select...",
-            allowClear: true,
-            width: '100%' // Đảm bảo dropdown rộng bằng sidebar
-        });
-    });
 </script>

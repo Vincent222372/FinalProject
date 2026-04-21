@@ -12,7 +12,11 @@
     <div style="display:flex; gap:30px; margin-top:20px; flex-wrap: wrap;">
 
         <div style="flex: 1; min-width: 300px;">
-            <img src="~/assets/@Model.Image"
+            <img src="@(string.IsNullOrEmpty(Model.Image)
+                                ? Url.Content("~/assets/product-1.jpg")
+                                : (Model.Image.StartsWith("uploads")
+                                    ? Url.Content("~/" + Model.Image.Replace("\\", "/"))
+                                    : Url.Content("~/assets/" + Model.Image)))"
                  style="width:100%; max-width:400px; height:auto; object-fit:cover;" />
         </div>
 
