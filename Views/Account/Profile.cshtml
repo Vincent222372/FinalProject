@@ -2,20 +2,50 @@
 
 <div class="container mt-5 mb-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-white">
-            <h2 class="mb-0">My Profile</h2>
-            <p class="text-muted small">Update your information for faster checkout</p>
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-0">My Profile</h2>
+                <p class="text-muted small mb-0">Update your information for faster checkout</p>
+            </div>
+
+            <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                <button type="submit" title="Logout" class="btn-logout-icon-header">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
         </div>
         <div class="card-body">
             <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-4 text-center border-end">
-                        <img src="@(string.IsNullOrEmpty(Model.AvatarUrl) ? "/images/default-avatar.png" : Model.AvatarUrl)"
-                             class="rounded-circle img-thumbnail mb-3"
-                             style="width: 180px; height: 180px; object-fit: cover;">
-                        <div class="px-4">
+                        <div class="avatar-wrapper position-relative d-inline-block">
+                            <img src="@(string.IsNullOrEmpty(Model.AvatarUrl) ? "/images/default-avatar.png" : Model.AvatarUrl)"
+                                 class="rounded-circle img-thumbnail mb-3"
+                                 style="width: 180px; height: 180px; object-fit: cover;">
+                        </div>
+
+                        <div class="px-4 mb-4 mt-2">
                             <label class="form-label small fw-bold">Change Profile Picture</label>
                             <input type="file" asp-for="AvatarFile" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="management-zone px-4 pt-4 border-top">
+                            <h6 class="text-start fw-bold mb-3">Account Management</h6>
+                            <div class="d-grid gap-2">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-controller="Admin" asp-action="Index" class="btn btn-dark btn-sm">Admin Dashboard</a>
+                                }
+                                @if (User.IsInRole("Shop"))
+                                {
+                                    <a asp-controller="SellerShop" asp-action="Index" class="btn btn-primary btn-sm">Shop Manager</a>
+                                }
+                                else if (!User.IsInRole("Admin"))
+                                {
+
+                                    <a asp-controller="Account" asp-action="RegisterBusiness" class="btn btn-outline-dark btn-sm">Open Shop</a>
+                                }
+                            </div>
                         </div>
                     </div>
 
@@ -24,7 +54,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="fw-bold">Email (Account)</label>
                                 <input type="text" class="form-control bg-light" value="@Model.Email" readonly>
-                                <input type="hidden" asp-for="Email" /> @* Đảm bảo email vẫn gửi lên để controller nhận *@
+                                <input type="hidden" asp-for="Email" />
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label asp-for="FullName" class="fw-bold">Full Name</label>

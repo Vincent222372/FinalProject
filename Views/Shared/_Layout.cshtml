@@ -8,53 +8,28 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FinalProject.styles.css" asp-append-version="true" />
-
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 
 @{
-    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+        var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+        var actionName = ViewContext.RouteData.Values["action"]?.ToString();
 }
 
-<body class="
-    @(Context.Request.Query["from"] == "home" ? "from-home" : "")
+<body class="@(Context.Request.Query["from"] == "home" ? "from-home" : "") @(controllerName == "Cart" ? "ads-big" : "")">
 
-    @(controllerName == "Cart" ? "ads-big" : "")
-    ">
-    @{
-        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    }
-
-    <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                // nếu là trang Product
-                if ("@currentController" === "Product") {
-                    document.body.classList.add("product-page");
-                }
-
-            });
-    </script>
     <header class="main-header">
         <nav class="navbar custom-navbar">
-            <div class="header-container">
+            <div class="container d-flex align-items-center justify-content-between">
 
-                <!-- LEFT -->
                 <div class="nav-left">
                     <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                         Fashion Web
                     </a>
                 </div>
-                <div class="nav-center"></div>
-                <div class="nav-right d-flex align-items-center">
-                    @await Html.PartialAsync("_LoginPartial")
-                </div>
-            </div>
-        </nav>
 
-                <!-- CENTER (SEARCH) -->
-                <div class="nav-center">
+                <div class="nav-center flex-grow-1 mx-4">
                     <form method="get" asp-controller="Product" asp-action="Index" class="search-form">
                         <div class="search-box">
                             <span class="search-icon">🔍</span>
@@ -66,7 +41,6 @@
                     </form>
                 </div>
 
-                <!-- RIGHT -->
                 <div class="nav-right">
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
@@ -74,40 +48,32 @@
             </div>
         </nav>
     </header>
+
     @{
-    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
-    var action = ViewContext.RouteData.Values["action"]?.ToString();
-
-        bool hideSideImages =
-         (controller == "Account" && (action == "Login" || action == "Register"))
-         || controller == "Admin";
-}
-
-@if (!hideSideImages)
-{
-    <!-- LEFT -->
-    <div class="ads-banner left">
-        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b" />
-        <div class="ads-overlay">
-            <h4>Minimal Style</h4>
-            <p>New Collection 2026</p>
-            
-        </div>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="ads-banner right">
-        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c" />
-        <div class="ads-overlay">
-            <h4>Street Wear</h4>
-            <p>Trending Outfit</p>
-            
-        </div>
-    </div>
+        bool hideSideImages = (controllerName == "Account" && (actionName == "Login" || actionName == "Register"))
+        || controllerName == "Admin";
     }
 
-    <div class="container">
-        
+    @if (!hideSideImages)
+    {
+        <div class="ads-banner left">
+            <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b" alt="Ads Left" />
+            <div class="ads-overlay">
+                <h4>Minimal Style</h4>
+                <p>New Collection 2026</p>
+            </div>
+        </div>
+
+        <div class="ads-banner right">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c" alt="Ads Right" />
+            <div class="ads-overlay">
+                <h4>Street Wear</h4>
+                <p>Trending Outfit</p>
+            </div>
+        </div>
+    }
+
+    <div class="container main-content mt-4">
         @if (TempData["SuccessMsg"] != null)
         {
             <div class="alert alert-success">@TempData["SuccessMsg"]</div>
@@ -116,138 +82,61 @@
         {
             <div class="alert alert-danger">@TempData["ErrorMsg"]</div>
         }
-        
+
         @RenderBody()
     </div>
 
-    <!-- LOGIN POPUP -->
-    <div id="loginPopup" class="login-popup">
+    <div id="loginPopup" class="login-popup" style="display: none;">
         <div class="login-popup-box">
-
             <h4>Choose an option</h4>
-
             <div class="login-popup-btns">
-
-                <a href="/Account/Register"
-                       class="btn btn-dark">
-                    Don't have an account? Register
-                </a>
-
-                <a href="/Account/Login"
-                       class="btn btn-outline-dark">
-                    Already have an account? Login
-                </a>
-
+                <a href="/Account/Register" class="btn btn-dark">Don't have an account? Register</a>
+                <a href="/Account/Login" class="btn btn-outline-dark">Already have an account? Login</a>
             </div>
-
-            <span onclick="closeLoginPopup()" class="close-popup">
-                ×
-            </span>
-
+            <span onclick="closeLoginPopup()" class="close-popup">×</span>
         </div>
     </div>
 
-    <!-- SCRIPT CŨ GIỮ NGUYÊN -->
-    <script>
-            function openLoginPopup() {
-                document.getElementById("loginPopup").style.display = "flex";
-            }
-
-            function closeLoginPopup() {
-                document.getElementById("loginPopup").style.display = "none";
-            }
-
-            function updateCartCount() {
-                fetch('/Cart/GetCartCount')
-                    .then(res => res.json())
-                    .then(data => {
-                        document.querySelector('.cart-badge').innerText = data.count;
-                    });
-            }
-
-            document.addEventListener("DOMContentLoaded", updateCartCount);
-    </script>
-
-    <!-- 🛒 LẤY COUNT TỪ SESSION -->
-    @using Newtonsoft.Json
-@using FinalProject.Models
-
-@{
-        var session = Context.Session.GetString("Cart");
-        int count = 0;
-
-        if (!string.IsNullOrEmpty(session))
-        {
-            var cart = JsonConvert.DeserializeObject<List<CartItems>>(session);
-            count = cart.Sum(x => x.Quantity);
-        }
-    }
-
-    <!-- 🛒 FLOATING CART -->
-    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Product")
-        {
-            <a href="/Cart" class="floating-cart">
-                <span class="cart-icon">🛒</span>
-                <span class="cart-badge" id="cart-count">@count</span>
-            </a>
-        }
-
-    <!-- 🛒✨ HIỆU ỨNG RUNG + BAY -->
-    <script>
-            function animateCart(count, imgSrc, startElement) {
-
-                const badge = document.getElementById("cart-count");
-                badge.innerText = count;
-
-                // 🛒 rung
-                badge.classList.add("animate");
-                setTimeout(() => badge.classList.remove("animate"), 400);
-
-                // 🛍️ bay
-                const cart = document.querySelector(".floating-cart");
-                const img = document.createElement("img");
-
-                img.src = imgSrc;
-                img.classList.add("fly-img");
-
-                document.body.appendChild(img);
-
-                const rectStart = startElement.getBoundingClientRect();
-                img.style.left = rectStart.left + "px";
-                img.style.top = rectStart.top + "px";
-
-                const rectEnd = cart.getBoundingClientRect();
-
-                setTimeout(() => {
-                    img.style.left = rectEnd.left + "px";
-                    img.style.top = rectEnd.top + "px";
-                    img.style.width = "20px";
-                    img.style.height = "20px";
-                    img.style.opacity = "0.5";
-                }, 10);
-
-                setTimeout(() => {
-                    img.remove();
-                }, 800);
-            }
-    </script>
-
-    
-    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    @using Newtonsoft.Json
+    @using FinalProject.Models
+    @{
+        var session = Context.Session.GetString("Cart");
+        int count = 0;
+        if (!string.IsNullOrEmpty(session))
+        {
+            var cart = JsonConvert.DeserializeObject<List<CartItems>>(session);
+            count = cart?.Sum(x => x.Quantity) ?? 0;
+        }
+    }
+
+    @if (controllerName == "Product")
+    {
+        <a href="/Cart" class="floating-cart">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-badge" id="cart-count">@count</span>
+        </a>
+    }
 
     <script>
-        $(document).ready(function() {
-            if ($('.select2-dropdown').length > 0) {
-                $('.select2-dropdown').select2({
-                    placeholder: "Search or Select...",
-                    allowClear: true,
-                    width: '100%'
+        function openLoginPopup() { document.getElementById("loginPopup").style.display = "flex"; }
+        function closeLoginPopup() { document.getElementById("loginPopup").style.display = "none"; }
+
+        function updateCartCount() {
+            fetch('/Cart/GetCartCount')
+                .then(res => res.json())
+                .then(data => {
+                    const badge = document.querySelector('.cart-badge');
+                    if(badge) badge.innerText = data.count;
                 });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            updateCartCount();
+            if ("@controllerName" === "Product") {
+                document.body.classList.add("product-page");
             }
         });
     </script>

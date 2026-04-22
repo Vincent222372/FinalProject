@@ -46,10 +46,21 @@ body {
     }
 
 /* Ẩn thanh search trên mobile nếu quá chật (tùy chọn) */
-@media (max-width: 576px) {
-    .nav-center {
-        display: none;
-    }
+/*@media (max-width: 576px) {*/
+.nav-center {
+    display: flex;
+    justify-content: center; /* Căn giữa form search nếu cần */
+    max-width: 100%;
+    flex: 1; /* Chiếm toàn bộ khoảng trống ở giữa */
+    padding: 0 20px;
+}
+.nav-left, .nav-right {
+    flex: 0 0 auto; /* Không co giãn, giữ kích thước theo nội dung */
+    min-width: 150px; /* Tùy chỉnh để cân bằng hai bên */
+}
+/*}*/
+.search-form {
+    width: 100%;
 }
 
 /* CONTAINER CHỨA SEARCH */
@@ -58,6 +69,31 @@ body {
     margin: 0 40px;
     transition: all 0.3s ease;
 }
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    padding: 5px 15px;
+    width: 100%; /* Ép box giãn ra hết cỡ */
+    height: 45px;
+}
+
+    .search-box input {
+        border: none;
+        outline: none;
+        flex-grow: 1; /* Để ô input chiếm hết khoảng trống giữa icon và nút */
+        padding: 0 10px;
+    }
+
+    .search-box button {
+        background: none;
+        border: none;
+        font-weight: 600;
+        white-space: nowrap; /* Không cho chữ nút Search bị nhảy dòng */
+        padding-left: 10px;
+        border-left: 1px solid var(--border-color);
+    }
 
 /* KHỐI GROUP BO TRÒN */
 .search-group {
@@ -1408,6 +1444,24 @@ h1, h2, h3 {
         color: #b07d4f; /* Highlight tên user bằng màu đậm hơn */
     }
 
+
+.btn-logout-icon-header {
+    background: none;
+    border: none;
+    color: #dc3545; /* Màu đỏ */
+    font-size: 1.8rem; /* Kích thước icon to và rõ */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+    .btn-logout-icon-header:hover {
+        color: #a71d2a; /* Đỏ đậm hơn khi hover */
+        transform: scale(1.2); /* Phóng to nhẹ khi hover */
+    }
+
 /* Nút Logout dạng link đơn giản */
 .logout-link {
     background-color: #000 !important; /* Đen tuyền */
@@ -1434,6 +1488,13 @@ h1, h2, h3 {
         margin-left: 5px;
         transition: 0.2s;
     }
+
+
+.profile-left-column {
+    position: relative !important;
+}
+    /* Hiệu ứng khi rê chuột vào */
+
 
 .btn-login-main {
     background-color: #000 !important;
@@ -2334,6 +2395,33 @@ h1, h2, h3 {
     align-items: center !important;
     gap: 8px;
 }
+/* Avatar trên Navbar */
+.nav-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover; /* Giữ tỉ lệ ảnh không bị móp */
+    border: 1px solid #ddd;
+    transition: transform 0.2s ease-in-out;
+}
+
+.nav-avatar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+    .nav-avatar-link:hover .nav-user-avatar {
+        transform: scale(1.1); /* Phóng to nhẹ khi di chuột vào ảnh */
+        border-color: #111;
+    }
+
+/* Căn chỉnh lại dòng chào để ngang hàng với ảnh */
+.user-greeting-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
     .auth-group form {
         margin: 0 !important;
@@ -2401,6 +2489,25 @@ body.fade-out {
     background: rgba(0,0,0,0.15);
     backdrop-filter: blur(4px);
 }
+
+.dropdown-menu {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1050;
+    min-width: 180px;
+    
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+}
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #000;
+    }
 
     /* TEXT - nâng cấp sang */
     .hero-content h1 {
