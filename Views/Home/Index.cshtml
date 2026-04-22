@@ -79,10 +79,10 @@ data.forEach(p => {
 
                 ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">-${discount}%</span>` : ""}
 
-                <img src="/assets/${p.Image}"
-                     class="card-img-top"
-                     style="height:220px;object-fit:cover;"
-                     onerror="this.src='/assets/no-image.png'">
+                      <img src="/assets/${p.Image}"
+         class="card-img-top"
+         style="height:220px;object-fit:cover;"
+         onerror="this.src='/assets/no-image.png'">
 
                 <div class="card-body">
                     <h6>${p.ProductName}</h6>
@@ -119,6 +119,25 @@ data.forEach(p => {
 
     // 🔥 QUAN TRỌNG: render lần đầu
     renderProducts();
+           const heroImages = [
+            "/imagess/anh1.jpg",
+            "/imagess/anh2.jpg",
+            "/imagess/anh3.jpg"
+        ];
+
+        let index = 0;
+
+        function changeHero() {
+            const hero = document.getElementById("heroSlide");
+
+            hero.style.backgroundImage = `url('${heroImages[index]}')`;
+
+            index++;
+            if (index >= heroImages.length) index = 0;
+        }
+
+        setInterval(changeHero, 3000);
+        changeHero();
 </script>
 
 <style>
