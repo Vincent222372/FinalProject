@@ -41,16 +41,28 @@ namespace FinalProject.Controllers.SellerController
             if (shop == null)
                 return View(new List<Product>());
 
+            // ===== PRODUCTS =====
             var products = _context.tb_Product
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .Where(p => p.ShopId == shop.ShopId)
                 .ToList();
 
+            // ===== 🔥 ORDERS (THÊM MỚI) =====
+            var orders = _context.tb_Order
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Where(o => o.OrderDetails.Any(od => od.Product.ShopId == shop.ShopId))
+                .OrderByDescending(o => o.CreatedDate)
+                .ToList();
+
+            // ===== VIEWBAG =====
             ViewBag.Shop = shop;
+            ViewBag.ShopOrders = orders;
+
             return View(products);
         }
-
         public IActionResult Details(int id)
         {
             var shop = GetSellerShop();

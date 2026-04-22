@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Orders for My Shop";
     var shop = ViewBag.Shop as FinalProject.Models.Shop;
-     Layout = "_LayoutSeller";
+    Layout = "_LayoutSeller";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -22,56 +22,105 @@
             <th>Items (yours)</th>
             <th>Subtotal (yours)</th>
             <th>Status</th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
+
     <tbody>
-    @foreach (var order in Model)
-    {
-        var shopItems = order.OrderDetails.Where(od => od.ShopId == (ViewBag.Shop as FinalProject.Models.Shop)?.ShopId);
-        <tr>
-            <td>@order.OrderId</td>
-            <td>@order.OrderDate.ToString("g")</td>
-            <td>@order.User?.FullName ?? "Customer #" + order.UserId</td>
-            <td>@shopItems.Sum(i => i.Quantity)</td>
-            <td>@shopItems.Sum(i => i.Price * i.Quantity).ToString("C")</td>
-            <td>@order.OrderStatus</td>
-            <td>
-                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@order.OrderId">Details</a>
+        @foreach (var order in Model)
+        {
+            // 🔥 FIX CHUẨN: lọc đúng sản phẩm của shop
+            var shopItems = order.OrderDetails?
+                .Where(od => od.Product != null && od.Product.ShopId == shop?.ShopId)
+                .ToList();
+
+            <tr>
+                <td>@order.OrderId</td>
+
+                <td>@order.OrderDate.ToString("g")</td>
+
+                <td>
+                    @(order.User != null
+                        ? order.User.FullName
+                        : "Customer #" + order.UserId)
+                </td>
+
+                <td>
+                    @(shopItems != null ? shopItems.Sum(i => i.Quantity) : 0)
+                </td>
+
+                <td>
+                    @((shopItems != null
+                        ? shopItems.Sum(i => i.Price * i.Quantity)
+                        : 0).ToString("N0")) VNĐ
+                </td>
+
+                <td>
+                    <span class="badge
+                        @(order.OrderStatus == "Pending" ? "bg-warning" :
+                                                order.OrderStatus == "Confirmed" ? "bg-info" :
+                                                order.OrderStatus == "Shipping" ? "bg-primary" :
+                                                order.OrderStatus == "Completed" ? "bg-success" :
+                                                "bg-secondary")">
+                        @order.OrderStatus
+                    </span>
+                </td>
+
+                <td>
+                    <!-- VIEW DETAIL -->
+                    <a class="btn btn-sm btn-info"
+                           asp-action="Details"
+                           asp-route-id="@order.OrderId">
+                        Details
+                    </a>
+
+                    <!-- 🔥 ACTION BUTTONS -->
                     @if (order.OrderStatus == "Pending")
                     {
+                        <!-- CONFIRM -->
                         <form asp-action="ConfirmOrder" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@order.OrderId" />
-                            <button type="submit" class="btn btn-sm btn-success">Confirm</button>
+                            <button class="btn btn-sm btn-success">
+                                Confirm
+                            </button>
                         </form>
 
+                        <!-- CANCEL -->
                         <form asp-action="CancelOrder" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@order.OrderId" />
-                            <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                            <button class="btn btn-sm btn-danger">
+                                Cancel
+                            </button>
                         </form>
                     }
                     else if (order.OrderStatus == "Confirmed")
                     {
+                        <!-- SHIP -->
                         <form asp-action="UpdateShipping" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@order.OrderId" />
                             <input type="hidden" name="status" value="Shipping" />
-                            <button class="btn btn-sm btn-info">Ship</button>
+                            <button class="btn btn-sm btn-primary">
+                                Ship
+                            </button>
                         </form>
                     }
                     else if (order.OrderStatus == "Shipping")
                     {
+                        <!-- COMPLETE -->
                         <form asp-action="UpdateShipping" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@order.OrderId" />
                             <input type="hidden" name="status" value="Completed" />
-                            <button class="btn btn-sm btn-success">Complete</button>
+                            <button class="btn btn-sm btn-success">
+                                Complete
+                            </button>
                         </form>
                     }
-            </td>
-        </tr>
-    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
